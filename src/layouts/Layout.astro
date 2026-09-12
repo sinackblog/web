@@ -95,14 +95,14 @@ function isOn(href: string) {
       </div>
     </aside>
 
-    <div class="head">
-      <div class="line">
-        <span class="sign">$</span> <span id="cmd" data-cmd={cmd}></span><span class="cursor blink" id="cur"></span>
-      </div>
-      <span class="sub" id="sub" data-sub={sub}></span>
-    </div>
-
     <main>
+      <div class="head">
+        <div class="line">
+          <span class="sign">$</span> <span id="cmd" data-cmd={cmd}></span><span class="cursor blink" id="cur"></span>
+        </div>
+        <span class="sub" id="sub" data-sub={sub}></span>
+      </div>
+
       <div class="stage" id="stage">
         <slot />
       </div>
