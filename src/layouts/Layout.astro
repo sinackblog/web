@@ -268,7 +268,7 @@ function isOn(href: string) {
     function topMatch(items: SearchItem[], q: string): SearchItem | undefined {
       const query = q.trim().toLowerCase();
       if (!query) return undefined;
-      return items.find((it) => it.title.toLowerCase().includes(query));
+      return items.find((it) => it.title.toLowerCase().startsWith(query));
     }
 
     async function goToMatch(input: HTMLInputElement) {
