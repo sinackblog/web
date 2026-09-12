@@ -30,51 +30,52 @@ body{
 
 .topbar{
   position: fixed; top: 0; left: 0; right: 0; height: var(--top); z-index: 20;
-  background: var(--paper); border-bottom: 1px solid var(--rule);
+  background: var(--ink); border-bottom: 1px solid #000;
   display: flex; align-items: center; justify-content: space-between;
-  padding: 0 22px; font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+  padding: 0 22px; font-family: var(--mono); font-size: 12.5px; color: #9a9aa4;
 }
-.topbar .path{ color: var(--faint); display: flex; align-items: center; gap: 14px; }
-.topbar .path b{ color: var(--ink); font-weight: 500; }
+.topbar .path{ color: #7a7a84; display: flex; align-items: center; gap: 14px; }
+.topbar .path b{ color: var(--shell-ink); font-weight: 500; }
 .topbar .right{ display: flex; gap: 18px; align-items: center; }
-.topbar a{ color: var(--muted); text-decoration: none; }
-.topbar a:hover{ color: var(--ink); }
+.topbar a{ color: #9a9aa4; text-decoration: none; }
+.topbar a:hover{ color: var(--shell-ink); }
+.topbar :focus-visible{ outline-color: var(--shell-ink); }
 .dot{ width: 7px; height: 7px; border-radius: 50%; background: var(--ink); display: inline-block; vertical-align: 1px; }
 .dot-ok{ background: #1f9d55; }
 
 .side-toggle{
-  font-size: 15px; line-height: 1; color: var(--muted); background: none; border: 0;
+  font-size: 15px; line-height: 1; color: #9a9aa4; background: none; border: 0;
   cursor: pointer; padding: 4px;
 }
-.side-toggle:hover{ color: var(--ink); }
+.side-toggle:hover{ color: var(--shell-ink); }
 
 .search-btn{
-  font-family: var(--mono); font-size: 12.5px; color: var(--muted);
-  background: none; border: 1px solid var(--rule); border-radius: 5px;
+  font-family: var(--mono); font-size: 12.5px; color: #9a9aa4;
+  background: none; border: 1px solid #3a3a42; border-radius: 5px;
   padding: 5px 10px; cursor: pointer; display: flex; align-items: center; gap: 8px;
 }
-.search-btn:hover{ color: var(--ink); border-color: var(--muted); }
+.search-btn:hover{ color: var(--shell-ink); border-color: #5a5a63; }
 .search-btn kbd{
-  font-family: var(--mono); font-size: 11px; color: var(--faint);
-  border: 1px solid var(--rule); border-radius: 3px; padding: 0 5px;
+  font-family: var(--mono); font-size: 11px; color: #7a7a84;
+  border: 1px solid #3a3a42; border-radius: 3px; padding: 0 5px;
 }
 
 .menu{ position: relative; }
 .menu-btn{
-  font-family: var(--mono); font-size: 12.5px; color: var(--muted);
+  font-family: var(--mono); font-size: 12.5px; color: #9a9aa4;
   background: none; border: 0; padding: 0; cursor: pointer;
 }
-.menu-btn:hover{ color: var(--ink); }
-.menu-caret{ color: var(--faint); }
+.menu-btn:hover{ color: var(--shell-ink); }
+.menu-caret{ color: #7a7a84; }
 .menu-drop{
   position: absolute; top: 24px; right: 0; z-index: 30; min-width: 140px;
-  background: var(--paper); border: 1px solid var(--rule); border-radius: 6px; padding: 6px 0;
+  background: var(--ink); border: 1px solid #3a3a42; border-radius: 6px; padding: 6px 0;
 }
 .menu-drop a{
   display: block; padding: 7px 14px; font-family: var(--mono); font-size: 12.5px;
-  color: var(--muted); text-decoration: none;
+  color: #9a9aa4; text-decoration: none;
 }
-.menu-drop a:hover{ color: var(--ink); background: var(--rule2); }
+.menu-drop a:hover{ color: var(--shell-ink); background: #232328; }
 .menu-drop[hidden]{ display: none; }
 
 .frame{
@@ -110,7 +111,7 @@ main{
 }
 html.sidebar-collapsed main{ margin-left: 0; }
 
-.head{ font-family: var(--mono); margin: 14px 0 40px; }
+.head{ font-family: var(--mono); margin: 14px 0 40px 64px; }
 .head .line{ font-size: 30px; line-height: 1.25; letter-spacing: -.025em; font-weight: 500; }
 .head .sign{ color: var(--faint); font-weight: 400; }
 .head .sub{ display: block; font-size: 15px; color: var(--muted); line-height: 1.9; margin-top: 14px; min-height: 1.9em; }
@@ -275,6 +276,7 @@ html.sidebar-collapsed .pie{ margin-left: 0; }
   .pie{ margin-left: 0; margin-top: 40px; padding: 28px 22px 24px; }
   .pie .cols{ gap: 34px; }
   body{ font-size: 17px; }
+  .head{ margin-left: 0; }
   .head .line{ font-size: 22px; }
   .rejilla{ grid-template-columns: 1fr; }
   .docs .ficha{ flex-direction: column; gap: 2px; }
