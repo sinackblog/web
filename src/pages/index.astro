@@ -2,20 +2,6 @@
 export const prerender = true;
 
 import Layout from "../layouts/Layout.astro";
-import { getCollection } from "astro:content";
-
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
-const docs = await getCollection("docs", ({ data }) => !data.draft);
-
-const numBlog = allPosts.filter((p) => p.data.tipo === "blog").length;
-const numLabs = allPosts.filter((p) => p.data.tipo === "lab").length;
-const numDocs = docs.length;
-
-const ultimos = allPosts
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
-
-const fmt = (d: Date) => d.toISOString().slice(0, 10);
 ---
 
 <Layout title="inicio" ruta="inicio" cmd="sinack --help" sub="labs, redes y seguridad">
@@ -31,30 +17,9 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
   </div>
 
   <div class="bloque">
-    <h3>último</h3>
-    <ul class="posts">
-      {ultimos.map((post) => (
-        <li class="post">
-          <div class="meta">
-            <span>{fmt(post.data.pubDate)}</span>
-            <span>{post.data.tipo === "blog" ? "blog" : "lab"}</span>
-          </div>
-          <h2>
-            <a href={`/${post.data.tipo === "blog" ? "blog" : "labs"}/${post.id}`}>{post.data.title}</a>
-          </h2>
-          <p>{post.data.description}</p>
-        </li>
-      ))}
-    </ul>
-  </div>
-
-  <div class="bloque">
-    <h3>de un vistazo</h3>
-    <div class="cifras">
-      <div><b>{numBlog}</b><span>posts</span></div>
-      <div><b>{numLabs}</b><span>labs</span></div>
-      <div><b>{numDocs}</b><span>fichas</span></div>
-      <div><b>0</b><span>rastreadores</span></div>
-    </div>
+    <h3>buscar</h3>
+    <button type="button" class="search-cta" data-open-search>
+      <span class="sign">$</span> buscar un post, un lab, una ficha… <kbd>/</kbd>
+    </button>
   </div>
 </Layout>
