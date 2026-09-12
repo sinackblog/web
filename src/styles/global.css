@@ -23,6 +23,9 @@ body{
   font-family: var(--serif);
   font-size: 18px;
   line-height: 1.62;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .topbar{
@@ -75,6 +78,7 @@ body{
 .menu-drop[hidden]{ display: none; }
 
 .frame{
+  flex: 1 0 auto;
   margin-top: var(--top);
 }
 aside{
@@ -196,6 +200,7 @@ figcaption{ font-family: var(--mono); font-size: 12px; color: var(--muted); marg
 .run.open .out{ max-height: 420px; padding: 18px 20px; margin-top: 13px; }
 
 .pie{
+  flex-shrink: 0;
   margin-top: 70px; margin-left: var(--side);
   background: #f3f3f6; color: var(--soft);
   padding: 40px 48px 30px; font-family: var(--mono);
@@ -206,6 +211,12 @@ html.sidebar-collapsed .pie{ margin-left: 0; }
 .pie h5{ font-size: 11.5px; font-weight: 400; color: var(--faint); margin: 0 0 12px; }
 .pie a{ display: block; font-size: 13px; color: var(--muted); text-decoration: none; line-height: 2; }
 .pie a:hover{ color: var(--ink); }
+.pie-link-btn{
+  display: block; width: 100%; text-align: left; font-family: var(--mono);
+  font-size: 13px; color: var(--muted); line-height: 2; background: none; border: 0;
+  padding: 0; cursor: pointer;
+}
+.pie-link-btn:hover{ color: var(--ink); }
 .pie-brand{ max-width: 260px; }
 .pie-icon{
   font-family: var(--mono); font-weight: 700; font-size: 15px; color: var(--ink); letter-spacing: -.02em;

@@ -142,7 +142,7 @@ function isOn(href: string) {
       <div>
         <h5>el sitio</h5>
         <a href="/sobre">sobre sinack</a>
-        <a href="#" data-open-search>buscar</a>
+        <button type="button" class="pie-link-btn" data-open-search>buscar</button>
       </div>
     </div>
     <div class="legal">
@@ -344,6 +344,7 @@ function isOn(href: string) {
     function onDocClick(e: Event) {
       const target = e.target as HTMLElement;
       if (target.closest("[data-open-search]")) {
+        e.preventDefault();
         openSearch();
         return;
       }
