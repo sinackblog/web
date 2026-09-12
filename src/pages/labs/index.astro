@@ -10,7 +10,7 @@ const labs = (await getCollection("posts", ({ data }) => !data.draft && data.tip
 ---
 
 <Layout title="labs" ruta="labs" cmd="sinack --labs" sub="laboratorios montados paso a paso">
-  <div class="rejilla">
+  <div class="rejilla rejilla-3">
     {labs.map((lab, i) => (
       <a class="caja" href={`/labs/${lab.id}`}>
         <div class="cab">

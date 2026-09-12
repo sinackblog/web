@@ -111,6 +111,7 @@ function isOn(href: string) {
 
   <div class="search-overlay" id="searchOverlay" hidden>
     <div class="search-box">
+      <div class="search-titlebar">sinack@web:~$ buscar</div>
       <div class="search-prompt">
         <span class="sign">$</span> buscar
         <input
@@ -127,13 +128,21 @@ function isOn(href: string) {
 
   <div class="pie">
     <div class="cols">
+      <div class="pie-brand">
+        <span class="pie-mark">sinack&gt;_</span>
+        <p>Labs, redes y seguridad. Todo escrito fuera de horario, sin encargo de nadie.</p>
+      </div>
       <div>
         <h5>secciones</h5>
         <a href="/blog">blog</a>
         <a href="/labs">labs</a>
         <a href="/docs">documentación</a>
         <a href="/portfolio">portfolio</a>
+      </div>
+      <div>
+        <h5>el sitio</h5>
         <a href="/sobre">sobre sinack</a>
+        <a href="#" data-open-search>buscar</a>
       </div>
     </div>
     <div class="legal">
@@ -299,6 +308,7 @@ function isOn(href: string) {
       if (!overlay || !input) return;
       overlay.hidden = false;
       input.value = "";
+      requestAnimationFrame(() => overlay.classList.add("in"));
       input.focus();
       loadSearchIndex().then((items) => renderResults(items.slice(0, 8)));
     }
@@ -306,6 +316,7 @@ function isOn(href: string) {
     function closeSearch() {
       const overlay = document.getElementById("searchOverlay") as HTMLElement | null;
       if (!overlay) return;
+      overlay.classList.remove("in");
       overlay.hidden = true;
     }
 
