@@ -1,0 +1,13 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="sobre" ruta="sobre" cmd="cat sobre.md" sub="">
+  <div style="max-width:660px">
+    <p style="color:var(--soft)">sinack es un sitio donde publicamos lo que montamos: laboratorios, apuntes de configuración, análisis y alguna opinión. Todo escrito fuera del horario de trabajo y sin encargo de nadie.</p>
+    <p style="color:var(--soft)">Publicamos los montajes con lo que funcionó y con lo que no. Nada de trabajo, nada de clientes, nada de refritos de noticias.</p>
+    <p style="color:var(--soft)">El sitio es estático, no lleva rastreadores ni publicidad, y el contenido vive en un repositorio público.</p>
+  </div>
+</Layout>

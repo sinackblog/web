@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sinack — labs, redes y seguridad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#ffffff;--ink:#111114;--soft:#33333a;--muted:#6e6e76;--faint:#9a9aa4;
+    --rule:#e6e6ea;--rule2:#f0f0f3;--shell:#111114;--shell-ink:#e8e8ee;
+    --mono:"JetBrains Mono", ui-monospace, monospace;
+    --serif:"Source Serif 4", Georgia, serif;
+    --side:262px;--top:40px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.62}
+
+  .topbar{
+    position:fixed;top:0;left:0;right:0;height:var(--top);z-index:20;
+    background:var(--paper);border-bottom:1px solid var(--rule);
+    display:flex;align-items:center;justify-content:space-between;
+    padding:0 22px;font-family:var(--mono);font-size:12.5px;color:var(--muted);
+  }
+  .topbar .path{color:var(--faint)}
+  .topbar .path b{color:var(--ink);font-weight:500}
+  .topbar .right{display:flex;gap:20px;align-items:center}
+  .topbar a{color:var(--muted);text-decoration:none;cursor:pointer}
+  .topbar a:hover{color:var(--ink)}
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--ink);display:inline-block;margin-right:7px;vertical-align:1px}
+
+  aside{
+    position:fixed;top:var(--top);left:0;bottom:0;width:var(--side);
+    border-right:1px solid var(--rule);padding:34px 26px 26px;
+    font-family:var(--mono);display:flex;flex-direction:column;
+  }
+  .mark{font-weight:700;font-size:21px;letter-spacing:-.02em;text-decoration:none;color:var(--ink);cursor:pointer}
+  .tree{margin-top:34px;font-size:15.5px;line-height:2.1}
+  .tree .root{color:var(--faint);font-size:14px}
+  .tree a{display:block;color:var(--muted);text-decoration:none;cursor:pointer;padding-left:16px;position:relative}
+  .tree a::before{content:"├─";position:absolute;left:-4px;color:var(--faint);font-size:14px}
+  .tree a:last-of-type::before{content:"└─"}
+  .tree a:hover,.tree a:focus-visible{color:var(--ink)}
+  .tree a.on{color:var(--ink);font-weight:500}
+  .side-meta{margin-top:auto;font-size:12px;color:var(--faint);line-height:1.9;border-top:1px solid var(--rule2);padding-top:16px}
+  .side-meta b{color:var(--muted);font-weight:400}
+
+  main{margin-left:var(--side);margin-top:var(--top);padding:42px 48px 0;max-width:1000px}
+
+  .head{font-family:var(--mono);margin:14px 0 40px}
+  .head .line{font-size:30px;line-height:1.25;letter-spacing:-.025em;font-weight:500}
+  .head .sign{color:var(--faint);font-weight:400}
+  .head .sub{display:block;font-size:15px;color:var(--muted);line-height:1.9;margin-top:14px}
+  .cursor{display:inline-block;width:.55em;height:.92em;background:var(--ink);vertical-align:-.1em;margin-left:.1em}
+  .blink{animation:blink 1.15s steps(1,end) infinite}
+  @keyframes blink{50%{opacity:0}}
+
+  .stage{opacity:0;transition:opacity .2s ease}
+  .stage.in{opacity:1}
+
+  .bloque{margin-bottom:52px}
+  .bloque > h3{
+    font-family:var(--mono);font-size:12.5px;font-weight:400;color:var(--faint);
+    margin:0 0 18px;padding-bottom:9px;border-bottom:1px solid var(--rule);
+  }
+
+  .help{font-family:var(--mono);font-size:14.5px;line-height:2.25;max-width:660px}
+  .help .row{display:flex;gap:18px;cursor:pointer;color:var(--muted)}
+  .help .row:hover{color:var(--ink)}
+  .help .flag{min-width:140px;color:var(--ink)}
+
+  .cifras{display:flex;gap:50px;font-family:var(--mono);flex-wrap:wrap}
+  .cifras div b{display:block;font-size:26px;font-weight:500;letter-spacing:-.02em}
+  .cifras div span{font-size:12.5px;color:var(--muted)}
+
+  .posts{margin:0;padding:0;list-style:none;max-width:700px}
+  .post{padding:22px 0;border-bottom:1px solid var(--rule)}
+  .post:first-child{padding-top:0}
+  .meta{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;gap:16px;margin-bottom:7px}
+  .post h2{font-family:var(--mono);font-weight:500;font-size:19px;line-height:1.35;letter-spacing:-.015em;margin:0 0 6px}
+  .post h2 a{color:var(--ink);text-decoration:none;cursor:pointer}
+  .post h2 a:hover{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+  .post p{margin:0 0 9px;color:var(--soft);font-size:17px}
+  .tags{font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .tags span{margin-right:12px}
+
+  .rejilla{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:820px}
+  .caja{
+    border:1px solid var(--rule);border-radius:7px;padding:20px 21px 18px;
+    cursor:pointer;transition:border-color .15s ease;background:var(--paper);
+  }
+  .caja:hover{border-color:var(--ink)}
+  .caja .cab{font-family:var(--mono);font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;margin-bottom:13px}
+  .caja .cab .est{color:var(--muted)}
+  .caja h3{font-family:var(--mono);font-weight:500;font-size:17px;line-height:1.35;margin:0 0 9px;letter-spacing:-.015em}
+  .caja p{margin:0 0 14px;font-size:16px;color:var(--soft);line-height:1.5}
+  .caja .pie-caja{font-family:var(--mono);font-size:11.5px;color:var(--muted);border-top:1px solid var(--rule2);padding-top:11px}
+  .caja .pie-caja span{margin-right:11px}
+
+  .docs{max-width:700px;font-family:var(--mono);font-size:14px}
+  .docs .grupo{margin-bottom:28px}
+  .docs .grupo h4{font-size:13px;font-weight:500;color:var(--faint);margin:0 0 9px}
+  .docs .ficha{display:flex;gap:16px;padding:9px 0;border-bottom:1px solid var(--rule2);color:var(--muted);cursor:pointer}
+  .docs .ficha:hover b{text-decoration:underline;text-underline-offset:3px}
+  .docs .ficha b{font-weight:500;color:var(--ink);min-width:240px}
+
+  article{max-width:680px}
+  article h1{font-family:var(--mono);font-weight:500;font-size:26px;line-height:1.28;letter-spacing:-.02em;margin:0 0 12px}
+  .artmeta{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:flex;gap:16px;margin-bottom:30px}
+  article p{margin:0 0 21px;color:var(--soft)}
+  article h2{font-family:var(--mono);font-weight:500;font-size:18px;margin:38px 0 15px}
+  article strong{font-weight:600;color:var(--ink)}
+  .shell{
+    background:var(--shell);color:var(--shell-ink);font-family:var(--mono);
+    font-size:13.5px;line-height:1.72;padding:19px 21px;border-radius:6px;
+    margin:0 0 23px;overflow-x:auto;white-space:pre;
+  }
+  .shell .p,.shell .c{color:#8b8b96}
+  .note{border-left:2px solid var(--ink);padding:2px 0 2px 17px;margin:0 0 23px;color:var(--soft);font-size:17px}
+  figure{margin:0 0 25px}
+  figure .ph{border:1px solid var(--rule);border-radius:4px;height:180px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px}
+  .run{margin:0 0 23px}
+  .run button{font-family:var(--mono);font-size:13px;color:var(--muted);background:none;border:0;border-bottom:1px dashed var(--rule);padding:0 0 3px;cursor:pointer}
+  .run button:hover{color:var(--ink);border-bottom-color:var(--muted)}
+  .run button .sign{color:var(--faint);margin-right:6px}
+  .run .out{
+    background:var(--shell);color:var(--shell-ink);font-family:var(--mono);font-size:13px;
+    line-height:1.7;padding:0;border-radius:6px;margin-top:0;white-space:pre;overflow:hidden;
+    max-height:0;transition:max-height .3s ease,padding .3s ease,margin-top .3s ease;
+  }
+  .run.open .out{max-height:420px;padding:18px 20px;margin-top:13px}
+
+  .pie{
+    margin:70px 48px 48px calc(var(--side) + 48px);
+    background:#f3f3f6;border:1px solid var(--rule);border-radius:8px;
+    padding:34px 36px 30px;font-family:var(--mono);max-width:1000px;
+  }
+  .pie .cols{display:flex;gap:70px;flex-wrap:wrap;max-width:900px}
+  .pie h5{font-size:11.5px;font-weight:400;color:var(--faint);margin:0 0 12px}
+  .pie a,.pie .li{display:block;font-size:13px;color:var(--muted);text-decoration:none;line-height:2;cursor:pointer}
+  .pie a:hover{color:var(--ink)}
+  .pie .legal{
+    display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    margin-top:32px;padding-top:18px;border-top:1px solid #e0e0e5;
+    font-size:11.5px;color:var(--faint);
+  }
+
+  .hidden{display:none}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+  @media (max-width:900px){
+    .topbar .path{display:none}
+    aside{
+      position:static;width:auto;border-right:0;border-bottom:1px solid var(--rule);
+      padding:22px;flex-direction:row;align-items:center;gap:20px;flex-wrap:wrap;margin-top:var(--top);
+    }
+    .tree{margin-top:0;font-size:14px;line-height:1.6;display:flex;gap:16px;flex-wrap:wrap}
+    .tree .root,.side-meta{display:none}
+    .tree a{padding-left:0}
+    .tree a::before,.tree a:last-of-type::before{content:""}
+    main{margin-left:0;margin-top:0;padding:26px 22px 0}
+    .pie{margin:40px 22px 32px;padding:28px 22px 24px}
+    .pie .cols{gap:34px}
+    body{font-size:17px}
+    .head .line{font-size:22px}
+    .rejilla{grid-template-columns:1fr}
+    .docs .ficha{flex-direction:column;gap:2px}
+    .docs .ficha b{min-width:0}
+    article h1{font-size:22px}
+    .shell,.run .out{font-size:12px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .blink{animation:none}.stage{transition:none}.run .out{transition:none}.caja{transition:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="path">sinack@web:~/<b id="ruta">inicio</b></div>
+  <div class="right">
+    <span><span class="dot"></span>estático · sin rastreadores</span>
+    <a>github</a>
+    <a>rss</a>
+  </div>
+</div>
+
+<aside>
+  <a class="mark" data-go="home">sinack&gt;_</a>
+  <nav class="tree">
+    <div class="root">~/</div>
+    <a data-go="home" class="on">inicio</a>
+    <a data-go="blog">blog</a>
+    <a data-go="labs">labs</a>
+    <a data-go="docs">documentación</a>
+    <a data-go="folio">portfolio</a>
+    <a data-go="sobre">sobre</a>
+  </nav>
+  <div class="side-meta">
+    <b>build</b> 2026.09.18<br>
+    <b>posts</b> 14 · <b>labs</b> 6<br>
+    <b>fuente</b> github
+  </div>
+</aside>
+
+<main>
+
+  <div class="head">
+    <div class="line"><span class="sign">$</span> <span id="cmd"></span><span class="cursor" id="cur"></span></div>
+    <span class="sub" id="sub"></span>
+  </div>
+
+  <div class="stage" id="stage">
+
+    <section id="v-home">
+      <div class="bloque">
+        <h3>secciones</h3>
+        <div class="help">
+          <div class="row" data-go="blog"><span class="flag">--blog</span><span>posts, opinión y actualidad comentada</span></div>
+          <div class="row" data-go="labs"><span class="flag">--labs</span><span>laboratorios montados paso a paso, con su repo</span></div>
+          <div class="row" data-go="docs"><span class="flag">--docs</span><span>fichas de configuración y apuntes de referencia</span></div>
+          <div class="row" data-go="folio"><span class="flag">--portfolio</span><span>proyectos y herramientas propias</span></div>
+          <div class="row" data-go="sobre"><span class="flag">--sobre</span><span>qué es esto y por qué existe</span></div>
+        </div>
+      </div>
+
+      <div class="bloque">
+        <h3>último</h3>
+        <ul class="posts">
+          <li class="post">
+            <div class="meta"><span>2026-09-18</span><span>blog</span></div>
+            <h2><a data-go="post">Tres semanas de honeypot SSH: quién llama de verdad a tu puerta</a></h2>
+            <p>Un Cowrie abierto en un VPS sin anunciar. Las credenciales que prueban y qué ejecutan en cuanto entran.</p>
+          </li>
+          <li class="post">
+            <div class="meta"><span>2026-09-14</span><span>lab</span></div>
+            <h2><a data-go="post">Detección de Modbus con Suricata en un anillo simulado</a></h2>
+            <p>Tres PLC simulados, un puerto espejo y reglas afinadas hasta quitar los falsos positivos.</p>
+          </li>
+          <li class="post">
+            <div class="meta"><span>2026-09-11</span><span>blog</span></div>
+            <h2><a data-go="post">Segmentar una red industrial sin parar la planta</a></h2>
+            <p>Zonas y conductos sobre papel es fácil. Sobre un anillo de doce años, menos.</p>
+          </li>
+        </ul>
+      </div>
+
+      <div class="bloque">
+        <h3>de un vistazo</h3>
+        <div class="cifras">
+          <div><b>14</b><span>posts</span></div>
+          <div><b>6</b><span>labs</span></div>
+          <div><b>23</b><span>fichas</span></div>
+          <div><b>0</b><span>rastreadores</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="v-blog" class="hidden">
+      <ul class="posts">
+        <li class="post">
+          <div class="meta"><span>2026-09-18</span><span>9 min</span></div>
+          <h2><a data-go="post">Tres semanas de honeypot SSH: quién llama de verdad a tu puerta</a></h2>
+          <p>Monté un Cowrie en un VPS y lo dejé abierto. Las credenciales que prueban, de dónde vienen y qué intentan ejecutar en cuanto entran.</p>
+          <div class="tags"><span>#honeypot</span><span>#ssh</span></div>
+        </li>
+        <li class="post">
+          <div class="meta"><span>2026-09-11</span><span>12 min</span></div>
+          <h2><a data-go="post">Segmentar una red industrial sin parar la planta</a></h2>
+          <p>Zonas y conductos sobre papel es fácil. Aplicarlo a un anillo que lleva doce años funcionando, menos.</p>
+          <div class="tags"><span>#ot</span><span>#redes</span></div>
+        </li>
+        <li class="post">
+          <div class="meta"><span>2026-09-04</span><span>6 min</span></div>
+          <h2><a data-go="post">Lo que aprendimos leyendo el aviso de CISA de esta semana</a></h2>
+          <p>Un vistazo al último aviso sobre dispositivos industriales: qué afecta de verdad y qué se puede hacer sin esperar al fabricante.</p>
+          <div class="tags"><span>#actualidad</span><span>#avisos</span></div>
+        </li>
+        <li class="post">
+          <div class="meta"><span>2026-08-28</span><span>8 min</span></div>
+          <h2><a data-go="post">Zero trust en una máquina Ubuntu, con nginx y ufw</a></h2>
+          <p>Un montaje pequeño para entender el modelo por dentro. Sin comprar nada y sin la palabra «plataforma» en ningún sitio.</p>
+          <div class="tags"><span>#nginx</span><span>#zero-trust</span></div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="v-labs" class="hidden">
+      <div class="rejilla">
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-01</span><span class="est">terminado</span></div>
+          <h3>Honeypot SSH con Cowrie</h3>
+          <p>Montaje sobre Debian, redirección de puertos, recogida de logs y volcado a Elasticsearch. Con los datos de tres semanas de capturas.</p>
+          <div class="pie-caja"><span>cowrie</span><span>debian</span><span>elastic</span></div>
+        </div>
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-02</span><span class="est">terminado</span></div>
+          <h3>Zero trust con nginx y ufw</h3>
+          <p>Proxy inverso, autenticación por certificado y cortafuegos por servicio en una sola máquina. Sin comprar nada.</p>
+          <div class="pie-caja"><span>nginx</span><span>ufw</span><span>ubuntu</span></div>
+        </div>
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-03</span><span class="est">en curso</span></div>
+          <h3>Detección de Modbus con Suricata</h3>
+          <p>Tres PLC simulados, un puerto espejo y un juego de reglas afinado hasta que deja de avisar cuando no toca.</p>
+          <div class="pie-caja"><span>suricata</span><span>modbus</span><span>gns3</span></div>
+        </div>
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-04</span><span class="est">terminado</span></div>
+          <h3>Segmentación en un anillo industrial</h3>
+          <p>VLAN, listas de acceso y puerto espejo sobre una topología en anillo montada en laboratorio.</p>
+          <div class="pie-caja"><span>vlan</span><span>acl</span><span>span</span></div>
+        </div>
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-05</span><span class="est">terminado</span></div>
+          <h3>SIEM casero con Wazuh</h3>
+          <p>Agentes, reglas propias y los primeros paneles útiles. Qué se ve el primer día y qué hay que afinar después.</p>
+          <div class="pie-caja"><span>wazuh</span><span>siem</span></div>
+        </div>
+        <div class="caja" data-go="post">
+          <div class="cab"><span>lab-06</span><span class="est">en curso</span></div>
+          <h3>Rack casero de bajo presupuesto</h3>
+          <p>Switch gestionable, cortafuegos pequeño y almacenamiento, todo de segunda mano. Qué comprar y qué evitar.</p>
+          <div class="pie-caja"><span>hardware</span><span>rack</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="v-docs" class="hidden">
+      <div class="docs">
+        <div class="grupo">
+          <h4>fortinet/</h4>
+          <div class="ficha"><b>alta-disponibilidad.md</b><span>clúster activo-pasivo, puertos y monitorización</span></div>
+          <div class="ficha"><b>vpn-ipsec.md</b><span>túnel sitio a sitio con selectores múltiples</span></div>
+          <div class="ficha"><b>logs-fortianalyzer.md</b><span>envío, retención y consultas frecuentes</span></div>
+        </div>
+        <div class="grupo">
+          <h4>redes/</h4>
+          <div class="ficha"><b>vlan-y-trunk.md</b><span>configuración base en switch gestionable</span></div>
+          <div class="ficha"><b>span-y-captura.md</b><span>puerto espejo para analizar sin cortar tráfico</span></div>
+          <div class="ficha"><b>acl-router.md</b><span>plantilla de listas de acceso comentada</span></div>
+        </div>
+        <div class="grupo">
+          <h4>ot/</h4>
+          <div class="ficha"><b>zonas-y-conductos.md</b><span>cómo aterrizar el modelo en una planta real</span></div>
+          <div class="ficha"><b>protocolos.md</b><span>Modbus, S7comm y DNP3: qué mirar en cada uno</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="v-folio" class="hidden">
+      <div class="rejilla">
+        <div class="caja">
+          <div class="cab"><span>proyecto</span><span class="est">activo</span></div>
+          <h3>Radar OT/ICS</h3>
+          <p>Recopilación y clasificación de avisos de seguridad industrial, con resumen propio de lo que importa cada semana.</p>
+          <div class="pie-caja"><span>automatización</span><span>rss</span></div>
+        </div>
+        <div class="caja">
+          <div class="cab"><span>proyecto</span><span class="est">activo</span></div>
+          <h3>Base de configuraciones</h3>
+          <p>Fichas cortas y reutilizables de configuración de red y seguridad, escritas mientras se resuelve cada cosa.</p>
+          <div class="pie-caja"><span>documentación</span></div>
+        </div>
+        <div class="caja">
+          <div class="cab"><span>herramienta</span><span class="est">terminado</span></div>
+          <h3>Comparador de reglas</h3>
+          <p>Script que compara dos conjuntos de reglas de cortafuegos y señala diferencias y solapamientos.</p>
+          <div class="pie-caja"><span>python</span></div>
+        </div>
+        <div class="caja">
+          <div class="cab"><span>herramienta</span><span class="est">en curso</span></div>
+          <h3>Inventario de red</h3>
+          <p>Descubrimiento pasivo a partir de capturas, con salida en tabla para revisar qué hay realmente conectado.</p>
+          <div class="pie-caja"><span>python</span><span>scapy</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="v-sobre" class="hidden">
+      <div style="max-width:660px">
+        <p style="color:var(--soft)">sinack es un sitio donde publicamos lo que montamos: laboratorios, apuntes de configuración, análisis y alguna opinión. Todo escrito fuera del horario de trabajo y sin encargo de nadie.</p>
+        <p style="color:var(--soft)">Publicamos los montajes con lo que funcionó y con lo que no. Nada de trabajo, nada de clientes, nada de refritos de noticias.</p>
+        <p style="color:var(--soft)">El sitio es estático, no lleva rastreadores ni publicidad, y el contenido vive en un repositorio público.</p>
+      </div>
+    </section>
+
+    <section id="v-post" class="hidden">
+      <article>
+        <h1>Tres semanas de honeypot SSH: quién llama de verdad a tu puerta</h1>
+        <div class="artmeta"><span>2026-09-18</span><span>9 min</span><span>#honeypot</span></div>
+
+        <p>La idea era simple: levantar un honeypot SSH en un VPS recién creado, no anunciarlo en ningún sitio y esperar. Sin dominio apuntando, sin aparecer en ningún buscador. Solo una IP pública con el puerto 22 abierto.</p>
+        <p>El primer intento de acceso llegó a los once minutos.</p>
+
+        <h2>El montaje</h2>
+        <div class="shell"><span class="p">$</span> git clone https://github.com/cowrie/cowrie
+<span class="p">$</span> cd cowrie &amp;&amp; python3 -m venv cowrie-env
+<span class="p">$</span> source cowrie-env/bin/activate &amp;&amp; pip install -r requirements.txt
+<span class="c"># redirigir el 22 real al 2222 del honeypot</span>
+<span class="p">$</span> sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2222</div>
+
+        <p class="note">El SSH de verdad se mueve <strong>antes</strong> de tocar iptables. Si lo haces al revés te quedas fuera de tu propio servidor, que es exactamente lo que pasó la primera vez.</p>
+
+        <div class="run">
+          <button type="button"><span class="sign">$</span>cat cowrie.cfg | grep -v '^#'</button>
+          <div class="out" data-out="[honeypot]
+hostname = srv-app-01
+listen_endpoints = tcp:2222:interface=0.0.0.0
+auth_class = AuthRandom
+
+[output_jsonlog]
+enabled = true
+logfile = var/log/cowrie/cowrie.json"></div>
+        </div>
+
+        <h2>Qué llegó</h2>
+        <p>En veintiún días se registraron algo más de 41.000 intentos de autenticación desde 1.900 direcciones distintas: unas pocas IP muy insistentes y una cola larguísima de direcciones que prueban una vez y desaparecen.</p>
+
+        <figure>
+          <div class="ph">captura: intentos por día</div>
+          <figcaption>Intentos de autenticación por día. El pico del día 9 es un solo origen.</figcaption>
+        </figure>
+
+        <div class="run">
+          <button type="button"><span class="sign">$</span>jq -r '.username+":"+.password' cowrie.json | sort | uniq -c | sort -rn | head</button>
+          <div class="out" data-out="   6841 root:123456
+   3120 admin:admin
+   2887 root:root
+   1994 root:password
+   1655 admin:1234
+   1402 ubuntu:ubuntu
+   1190 pi:raspberry
+    977 oracle:oracle"></div>
+        </div>
+
+        <h2>Qué me llevo</h2>
+        <p>Cualquier máquina con el 22 abierto recibe este tráfico desde el primer minuto, sin que nadie la haya buscado. La conclusión práctica es aburrida y sigue siendo verdad: cambiar el puerto no es una medida de seguridad, pero desactivar la autenticación por contraseña elimina de golpe esos 41.000 intentos.</p>
+      </article>
+    </section>
+
+  </div>
+</main>
+
+<div class="pie">
+  <div class="cols">
+    <div>
+      <h5>secciones</h5>
+      <a data-go="blog">blog</a>
+      <a data-go="labs">labs</a>
+      <a data-go="docs">documentación</a>
+      <a data-go="folio">portfolio</a>
+    </div>
+    <div>
+      <h5>seguir</h5>
+      <a>rss.xml</a>
+      <a>github</a>
+      <a>linkedin</a>
+    </div>
+    <div>
+      <h5>el sitio</h5>
+      <a data-go="sobre">sobre sinack</a>
+      <span class="li">astro · cloudflare</span>
+      <span class="li">sin cookies ni analítica</span>
+    </div>
+  </div>
+  <div class="legal">
+    <span>sinack.es</span>
+    <span>contenido bajo CC BY-SA · código bajo MIT</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var vistas={
+    home :{id:"v-home", ruta:"inicio",        cmd:"sinack --help",      sub:"labs, redes y seguridad"},
+    blog :{id:"v-blog", ruta:"blog",          cmd:"sinack --blog",      sub:"posts, opinión y actualidad comentada"},
+    labs :{id:"v-labs", ruta:"labs",          cmd:"sinack --labs",      sub:"laboratorios montados paso a paso"},
+    docs :{id:"v-docs", ruta:"documentación", cmd:"sinack --docs",      sub:"fichas de configuración y apuntes"},
+    folio:{id:"v-folio",ruta:"portfolio",     cmd:"sinack --portfolio", sub:"proyectos y herramientas propias"},
+    sobre:{id:"v-sobre",ruta:"sobre",         cmd:"cat sobre.md",       sub:""},
+    post :{id:"v-post", ruta:"blog/honeypot-ssh", cmd:"cat posts/honeypot-ssh.md", sub:""}
+  };
+
+  var cmdEl=document.getElementById("cmd"), curEl=document.getElementById("cur");
+  var subEl=document.getElementById("sub"), stage=document.getElementById("stage");
+  var ruta=document.getElementById("ruta");
+  var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var timer=null;
+
+  function mostrar(k){
+    for(var n in vistas) document.getElementById(vistas[n].id).classList.add("hidden");
+    document.getElementById(vistas[k].id).classList.remove("hidden");
+  }
+  function marcar(k){
+    var l=document.querySelectorAll(".tree a");
+    for(var i=0;i<l.length;i++) l[i].classList.toggle("on", l[i].getAttribute("data-go")===k);
+  }
+
+  function ir(k, primera){
+    var v=vistas[k]; if(!v) return;
+    clearTimeout(timer);
+    stage.classList.remove("in");
+    curEl.classList.remove("blink");
+    subEl.textContent="";
+    marcar(k); ruta.textContent=v.ruta;
+
+    if(reduce){
+      cmdEl.textContent=v.cmd; subEl.textContent=v.sub; mostrar(k);
+      stage.classList.add("in"); curEl.classList.add("blink");
+      if(!primera) window.scrollTo(0,0);
+      return;
+    }
+    var vel = primera ? 56 : 22, i=0;
+    cmdEl.textContent="";
+    (function paso(){
+      if(i<=v.cmd.length){ cmdEl.textContent=v.cmd.slice(0,i++); timer=setTimeout(paso,vel); }
+      else timer=setTimeout(function(){
+        subEl.textContent=v.sub; mostrar(k);
+        stage.classList.add("in"); curEl.classList.add("blink");
+        if(!primera) window.scrollTo(0,0);
+      }, primera?260:140);
+    })();
+  }
+
+  document.addEventListener("click",function(e){
+    var t=e.target.closest("[data-go]");
+    if(!t) return;
+    e.preventDefault();
+    ir(t.getAttribute("data-go"), false);
+  });
+
+  document.addEventListener("click",function(e){
+    var b=e.target.closest(".run button");
+    if(!b) return;
+    var box=b.parentNode, out=box.querySelector(".out");
+    if(box.classList.contains("open")){ box.classList.remove("open"); out.textContent=""; return; }
+    box.classList.add("open");
+    var txt=out.getAttribute("data-out");
+    if(reduce){ out.textContent=txt; return; }
+    var j=0;
+    (function esc(){
+      if(j<=txt.length){ out.textContent=txt.slice(0,j); j+=3; setTimeout(esc,8); }
+      else out.textContent=txt;
+    })();
+  });
+
+  ir("home", true);
+})();
+</script>
+</body>
+</html>

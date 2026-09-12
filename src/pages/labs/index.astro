@@ -1,0 +1,28 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const labs = (await getCollection("posts", ({ data }) => !data.draft && data.tipo === "lab")).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Layout title="labs" ruta="labs" cmd="sinack --labs" sub="laboratorios montados paso a paso">
+  <div class="rejilla">
+    {labs.map((lab, i) => (
+      <a class="caja" href={`/labs/${lab.id}`}>
+        <div class="cab">
+          <span>lab-{String(i + 1).padStart(2, "0")}</span>
+          <span class="est">{lab.data.estado === "en-curso" ? "en curso" : "terminado"}</span>
+        </div>
+        <h3>{lab.data.title}</h3>
+        <p>{lab.data.description}</p>
+        <div class="pie-caja">
+          {lab.data.stack.map((s) => <span>{s}</span>)}
+        </div>
+      </a>
+    ))}
+  </div>
+</Layout>

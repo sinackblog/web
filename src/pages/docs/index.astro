@@ -1,0 +1,32 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const docs = await getCollection("docs", ({ data }) => !data.draft);
+
+const grupos = new Map<string, typeof docs>();
+for (const doc of docs) {
+  const list = grupos.get(doc.data.grupo) ?? [];
+  list.push(doc);
+  grupos.set(doc.data.grupo, list);
+}
+const gruposOrdenados = [...grupos.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+---
+
+<Layout title="documentación" ruta="documentación" cmd="sinack --docs" sub="fichas de configuración y apuntes">
+  <div class="docs">
+    {gruposOrdenados.map(([grupo, fichas]) => (
+      <div class="grupo">
+        <h4>{grupo}/</h4>
+        {fichas.map((doc) => (
+          <a class="ficha" href={`/docs/${doc.id}`}>
+            <b>{doc.data.title}.md</b>
+            <span>{doc.data.description}</span>
+          </a>
+        ))}
+      </div>
+    ))}
+  </div>
+</Layout>

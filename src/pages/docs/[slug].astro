@@ -1,0 +1,27 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const docs = await getCollection("docs", ({ data }) => !data.draft);
+  return docs.map((doc) => ({
+    params: { slug: doc.id },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+---
+
+<Layout title={doc.data.title} ruta={`documentación/${doc.data.grupo}`} cmd={`cat docs/${doc.data.grupo}/${doc.id}.md`} sub="">
+  <article>
+    <h1>{doc.data.title}</h1>
+    <div class="artmeta">
+      <span>{doc.data.grupo}/</span>
+    </div>
+    <Content />
+  </article>
+</Layout>

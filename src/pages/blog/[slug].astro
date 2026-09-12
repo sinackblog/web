@@ -1,0 +1,29 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft && data.tipo === "blog");
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Layout title={post.data.title} ruta={`blog/${post.id}`} cmd={`cat posts/${post.id}.md`} sub="">
+  <article>
+    <h1>{post.data.title}</h1>
+    <div class="artmeta">
+      <span>{fmt(post.data.pubDate)}</span>
+      {post.data.tags.map((t) => <span>#{t}</span>)}
+    </div>
+    <Content />
+  </article>
+</Layout>

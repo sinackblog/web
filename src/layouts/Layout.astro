@@ -1,0 +1,200 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import { getCollection } from "astro:content";
+
+interface Props {
+  title: string;
+  ruta: string;
+  cmd: string;
+  sub?: string;
+}
+
+const { title, ruta, cmd, sub = "" } = Astro.props;
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const numPosts = allPosts.filter((p) => p.data.tipo === "blog").length;
+const numLabs = allPosts.filter((p) => p.data.tipo === "lab").length;
+
+const nav = [
+  { href: "/", key: "home", label: "inicio" },
+  { href: "/blog", key: "blog", label: "blog" },
+  { href: "/labs", key: "labs", label: "labs" },
+  { href: "/docs", key: "docs", label: "documentación" },
+  { href: "/portfolio", key: "folio", label: "portfolio" },
+  { href: "/sobre", key: "sobre", label: "sobre" },
+];
+
+const path = Astro.url.pathname;
+function isOn(href: string) {
+  if (href === "/") return path === "/";
+  return path.startsWith(href);
+}
+---
+
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{title} — sinack</title>
+  <meta name="description" content="sinack — labs, redes y seguridad" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="alternate" type="application/rss+xml" title="sinack" href="/rss.xml" />
+  <ClientRouter />
+</head>
+<body>
+  <div class="topbar">
+    <div class="path">sinack@web:~/<b>{ruta}</b></div>
+    <div class="right">
+      <span><span class="dot"></span>estático · sin rastreadores</span>
+      <a href="https://github.com/sinackblog/web" target="_blank" rel="noreferrer">github</a>
+      <a href="/rss.xml">rss</a>
+    </div>
+  </div>
+
+  <aside>
+    <a class="mark" href="/">sinack&gt;_</a>
+    <nav class="tree">
+      <div class="root">~/</div>
+      {nav.map((n) => (
+        <a href={n.href} class={isOn(n.href) ? "on" : ""}>{n.label}</a>
+      ))}
+    </nav>
+    <div class="side-meta">
+      <b>posts</b> {numPosts} · <b>labs</b> {numLabs}<br />
+      <b>fuente</b> github
+    </div>
+  </aside>
+
+  <main>
+    <div class="head">
+      <div class="line">
+        <span class="sign">$</span> <span id="cmd" data-cmd={cmd}></span><span class="cursor blink" id="cur"></span>
+      </div>
+      <span class="sub" id="sub" data-sub={sub}></span>
+    </div>
+
+    <div class="stage" id="stage">
+      <slot />
+    </div>
+  </main>
+
+  <div class="pie">
+    <div class="cols">
+      <div>
+        <h5>secciones</h5>
+        <a href="/blog">blog</a>
+        <a href="/labs">labs</a>
+        <a href="/docs">documentación</a>
+        <a href="/portfolio">portfolio</a>
+      </div>
+      <div>
+        <h5>seguir</h5>
+        <a href="/rss.xml">rss.xml</a>
+        <a href="https://github.com/sinackblog/web" target="_blank" rel="noreferrer">github</a>
+      </div>
+      <div>
+        <h5>el sitio</h5>
+        <a href="/sobre">sobre sinack</a>
+        <span class="li">astro · cloudflare</span>
+        <span class="li">sin cookies ni analítica</span>
+      </div>
+    </div>
+    <div class="legal">
+      <span>sinack.es</span>
+      <span>contenido bajo CC BY-SA · código bajo MIT</span>
+    </div>
+  </div>
+
+  <script>
+    function typeHeader() {
+      const cmdEl = document.getElementById("cmd");
+      const subEl = document.getElementById("sub");
+      const stage = document.getElementById("stage");
+      if (!cmdEl || !subEl || !stage) return;
+
+      const cmd = cmdEl.getAttribute("data-cmd") || "";
+      const sub = subEl.getAttribute("data-sub") || "";
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const primera = !sessionStorage.getItem("sinack:visitado");
+      sessionStorage.setItem("sinack:visitado", "1");
+
+      const runId = ((window as any).__sinackRunId = ((window as any).__sinackRunId || 0) + 1);
+      const isCurrent = () => (window as any).__sinackRunId === runId;
+
+      stage.classList.remove("in");
+      subEl.textContent = "";
+      cmdEl.textContent = "";
+
+      if (reduce) {
+        cmdEl.textContent = cmd;
+        subEl.textContent = sub;
+        stage.classList.add("in");
+        return;
+      }
+
+      const vel = primera ? 56 : 22;
+      let i = 0;
+      function paso() {
+        if (!isCurrent()) return;
+        if (i <= cmd.length) {
+          cmdEl.textContent = cmd.slice(0, i++);
+          setTimeout(paso, vel);
+        } else {
+          setTimeout(() => {
+            if (!isCurrent()) return;
+            subEl.textContent = sub;
+            stage.classList.add("in");
+          }, primera ? 260 : 140);
+        }
+      }
+      paso();
+    }
+
+    function runToggle(e: Event) {
+      const target = e.target as HTMLElement;
+      const btn = target.closest(".run button");
+      if (!btn) return;
+      const box = btn.parentElement as HTMLElement;
+      const out = box.querySelector(".out") as HTMLElement | null;
+      if (!out) return;
+      if (box.classList.contains("open")) {
+        box.classList.remove("open");
+        out.textContent = "";
+        return;
+      }
+      box.classList.add("open");
+      const txt = out.getAttribute("data-out") || "";
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reduce) {
+        out.textContent = txt;
+        return;
+      }
+      let j = 0;
+      function esc() {
+        if (j <= txt.length) {
+          out!.textContent = txt.slice(0, j);
+          j += 3;
+          setTimeout(esc, 8);
+        } else {
+          out!.textContent = txt;
+        }
+      }
+      esc();
+    }
+
+    if (!(window as any).__sinackBound) {
+      (window as any).__sinackBound = true;
+      document.addEventListener("astro:page-load", typeHeader);
+      document.addEventListener("click", runToggle);
+    }
+  </script>
+</body>
+</html>

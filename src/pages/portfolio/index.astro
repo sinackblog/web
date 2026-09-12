@@ -1,0 +1,40 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const items = await getCollection("portfolio", ({ data }) => !data.draft);
+---
+
+<Layout title="portfolio" ruta="portfolio" cmd="sinack --portfolio" sub="proyectos y herramientas propias">
+  <div class="rejilla">
+    {items.map((item) => (
+      item.data.url ? (
+        <a class="caja" href={item.data.url} target="_blank" rel="noreferrer">
+          <div class="cab">
+            <span>{item.data.tipo}</span>
+            <span class="est">{item.data.estado === "en-curso" ? "en curso" : item.data.estado}</span>
+          </div>
+          <h3>{item.data.title}</h3>
+          <p>{item.data.description}</p>
+          <div class="pie-caja">
+            {item.data.stack.map((s) => <span>{s}</span>)}
+          </div>
+        </a>
+      ) : (
+        <div class="caja">
+          <div class="cab">
+            <span>{item.data.tipo}</span>
+            <span class="est">{item.data.estado === "en-curso" ? "en curso" : item.data.estado}</span>
+          </div>
+          <h3>{item.data.title}</h3>
+          <p>{item.data.description}</p>
+          <div class="pie-caja">
+            {item.data.stack.map((s) => <span>{s}</span>)}
+          </div>
+        </div>
+      )
+    ))}
+  </div>
+</Layout>

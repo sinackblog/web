@@ -1,0 +1,60 @@
+---
+export const prerender = true;
+
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const docs = await getCollection("docs", ({ data }) => !data.draft);
+
+const numBlog = allPosts.filter((p) => p.data.tipo === "blog").length;
+const numLabs = allPosts.filter((p) => p.data.tipo === "lab").length;
+const numDocs = docs.length;
+
+const ultimos = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Layout title="inicio" ruta="inicio" cmd="sinack --help" sub="labs, redes y seguridad">
+  <div class="bloque">
+    <h3>secciones</h3>
+    <div class="help">
+      <a class="row" href="/blog"><span class="flag">--blog</span><span>posts, opinión y actualidad comentada</span></a>
+      <a class="row" href="/labs"><span class="flag">--labs</span><span>laboratorios montados paso a paso, con su repo</span></a>
+      <a class="row" href="/docs"><span class="flag">--docs</span><span>fichas de configuración y apuntes de referencia</span></a>
+      <a class="row" href="/portfolio"><span class="flag">--portfolio</span><span>proyectos y herramientas propias</span></a>
+      <a class="row" href="/sobre"><span class="flag">--sobre</span><span>qué es esto y por qué existe</span></a>
+    </div>
+  </div>
+
+  <div class="bloque">
+    <h3>último</h3>
+    <ul class="posts">
+      {ultimos.map((post) => (
+        <li class="post">
+          <div class="meta">
+            <span>{fmt(post.data.pubDate)}</span>
+            <span>{post.data.tipo === "blog" ? "blog" : "lab"}</span>
+          </div>
+          <h2>
+            <a href={`/${post.data.tipo === "blog" ? "blog" : "labs"}/${post.id}`}>{post.data.title}</a>
+          </h2>
+          <p>{post.data.description}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="bloque">
+    <h3>de un vistazo</h3>
+    <div class="cifras">
+      <div><b>{numBlog}</b><span>posts</span></div>
+      <div><b>{numLabs}</b><span>labs</span></div>
+      <div><b>{numDocs}</b><span>fichas</span></div>
+      <div><b>0</b><span>rastreadores</span></div>
+    </div>
+  </div>
+</Layout>
