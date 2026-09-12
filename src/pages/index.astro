@@ -18,8 +18,18 @@ import Layout from "../layouts/Layout.astro";
 
   <div class="bloque">
     <h3>buscar</h3>
-    <button type="button" class="search-cta" data-open-search>
-      <span class="sign">$</span> buscar un post, un lab, una ficha… <kbd>/</kbd>
-    </button>
+    <div class="cli">
+      <div class="cli-prompt">
+        <span class="sign">$</span> buscar
+        <input
+          id="homeSearchInput"
+          type="text"
+          autocomplete="off"
+          spellcheck="false"
+          placeholder="título de un post, lab o ficha…"
+        />
+      </div>
+      <div class="cli-results" id="homeSearchResults"></div>
+    </div>
   </div>
 </Layout>

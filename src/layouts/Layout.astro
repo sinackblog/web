@@ -111,7 +111,7 @@ function isOn(href: string) {
 
   <div class="search-overlay" id="searchOverlay" hidden>
     <div class="search-box">
-      <div class="search-titlebar">sinack@web:~$ buscar</div>
+      <div class="search-banner">sinack — buscador<br />escribe un título y pulsa Intro</div>
       <div class="search-prompt">
         <span class="sign">$</span> buscar
         <input
@@ -122,14 +122,14 @@ function isOn(href: string) {
           placeholder="título de un post, lab o ficha…"
         />
       </div>
-      <ul class="search-results" id="searchResults"></ul>
+      <div class="search-results" id="searchResults"></div>
     </div>
   </div>
 
   <div class="pie">
     <div class="cols">
       <div class="pie-brand">
-        <span class="pie-mark">sinack&gt;_</span>
+        <span class="pie-icon">&gt;ack</span>
         <p>Labs, redes y seguridad. Todo escrito fuera de horario, sin encargo de nadie.</p>
       </div>
       <div>
@@ -256,8 +256,10 @@ function isOn(href: string) {
     }
 
     type SearchItem = { title: string; url: string; section: string };
+    type Widget = { input: HTMLInputElement; results: HTMLElement; items: SearchItem[]; selected: number };
+
     let searchIndex: SearchItem[] | null = null;
-    let searchSelected = -1;
+    const widgets = new Map<HTMLInputElement, Widget>();
 
     async function loadSearchIndex(): Promise<SearchItem[]> {
       if (searchIndex) return searchIndex;
@@ -266,40 +268,68 @@ function isOn(href: string) {
       return searchIndex!;
     }
 
-    function renderResults(items: SearchItem[]) {
-      const list = document.getElementById("searchResults");
-      if (!list) return;
-      list.innerHTML = "";
-      searchSelected = items.length > 0 ? 0 : -1;
-      items.forEach((item, i) => {
-        const li = document.createElement("li");
-        li.className = i === searchSelected ? "on" : "";
-        li.innerHTML = `<span class="s-title"></span><span class="s-section">${item.section}</span>`;
-        (li.querySelector(".s-title") as HTMLElement).textContent = item.title;
-        li.addEventListener("mouseenter", () => setSelected(i));
-        li.addEventListener("click", () => go(item));
-        list.appendChild(li);
+    function filterItems(items: SearchItem[], q: string) {
+      const query = q.trim().toLowerCase();
+      const matches = query ? items.filter((it) => it.title.toLowerCase().includes(query)) : items;
+      return matches.slice(0, 8);
+    }
+
+    function renderWidget(w: Widget) {
+      w.results.innerHTML = "";
+      w.items.forEach((item, i) => {
+        const row = document.createElement("div");
+        row.className = "s-row" + (i === w.selected ? " on" : "");
+        row.dataset.index = String(i);
+        const title = document.createElement("span");
+        title.className = "s-title";
+        title.textContent = item.title;
+        const section = document.createElement("span");
+        section.className = "s-section";
+        section.textContent = item.section;
+        row.append(title, section);
+        w.results.appendChild(row);
       });
     }
 
-    function setSelected(i: number) {
-      const list = document.getElementById("searchResults");
-      if (!list) return;
-      searchSelected = i;
-      [...list.children].forEach((el, idx) => el.classList.toggle("on", idx === i));
+    function setSelected(w: Widget, i: number) {
+      w.selected = i;
+      [...w.results.children].forEach((el, idx) => el.classList.toggle("on", idx === i));
     }
 
-    function go(item: SearchItem) {
-      window.location.href = item.url;
+    function moveSelection(w: Widget, delta: number) {
+      if (!w.items.length) return;
+      setSelected(w, Math.max(0, Math.min(w.items.length - 1, w.selected + delta)));
     }
 
-    async function onSearchInput(e: Event) {
-      const q = (e.target as HTMLInputElement).value.trim().toLowerCase();
-      const items = await loadSearchIndex();
-      const filtered = q
-        ? items.filter((it) => it.title.toLowerCase().includes(q)).slice(0, 8)
-        : items.slice(0, 8);
-      renderResults(filtered);
+    function activateSelection(w: Widget) {
+      const item = w.items[w.selected];
+      if (item) window.location.href = item.url;
+    }
+
+    async function updateWidget(w: Widget) {
+      const all = await loadSearchIndex();
+      w.items = filterItems(all, w.input.value);
+      w.selected = w.items.length ? 0 : -1;
+      renderWidget(w);
+    }
+
+    function setupWidget(input: HTMLInputElement | null, results: HTMLElement | null) {
+      if (!input || !results) return;
+      const w: Widget = { input, results, items: [], selected: -1 };
+      widgets.set(input, w);
+      updateWidget(w);
+    }
+
+    function initSearchWidgets() {
+      widgets.clear();
+      setupWidget(
+        document.getElementById("searchInput") as HTMLInputElement | null,
+        document.getElementById("searchResults")
+      );
+      setupWidget(
+        document.getElementById("homeSearchInput") as HTMLInputElement | null,
+        document.getElementById("homeSearchResults")
+      );
     }
 
     function openSearch() {
@@ -310,7 +340,8 @@ function isOn(href: string) {
       input.value = "";
       requestAnimationFrame(() => overlay.classList.add("in"));
       input.focus();
-      loadSearchIndex().then((items) => renderResults(items.slice(0, 8)));
+      const w = widgets.get(input);
+      if (w) updateWidget(w);
     }
 
     function closeSearch() {
@@ -323,31 +354,34 @@ function isOn(href: string) {
     function onGlobalKeydown(e: KeyboardEvent) {
       const overlay = document.getElementById("searchOverlay") as HTMLElement | null;
       const active = document.activeElement as HTMLElement | null;
-      const typing = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA");
+      const w = active ? widgets.get(active as HTMLInputElement) : undefined;
 
-      if (overlay && !overlay.hidden) {
-        if (e.key === "Escape") {
-          e.preventDefault();
-          closeSearch();
-        } else if (e.key === "ArrowDown") {
-          e.preventDefault();
-          const list = document.getElementById("searchResults");
-          if (list && list.children.length) setSelected(Math.min(searchSelected + 1, list.children.length - 1));
-        } else if (e.key === "ArrowUp") {
-          e.preventDefault();
-          if (searchSelected > 0) setSelected(searchSelected - 1);
-        } else if (e.key === "Enter") {
-          e.preventDefault();
-          const items = searchIndex || [];
-          const list = document.getElementById("searchResults");
-          const q = (document.getElementById("searchInput") as HTMLInputElement).value.trim().toLowerCase();
-          const filtered = q ? items.filter((it) => it.title.toLowerCase().includes(q)).slice(0, 8) : items.slice(0, 8);
-          if (searchSelected >= 0 && filtered[searchSelected]) go(filtered[searchSelected]);
-        }
+      if (overlay && !overlay.hidden && e.key === "Escape") {
+        e.preventDefault();
+        closeSearch();
         return;
       }
 
-      if (e.key === "/" && !typing) {
+      if (w) {
+        if (e.key === "ArrowDown") {
+          e.preventDefault();
+          moveSelection(w, 1);
+          return;
+        }
+        if (e.key === "ArrowUp") {
+          e.preventDefault();
+          moveSelection(w, -1);
+          return;
+        }
+        if (e.key === "Enter") {
+          e.preventDefault();
+          activateSelection(w);
+          return;
+        }
+      }
+
+      const typing = active && (active.tagName === "INPUT" || active.tagName === "TEXTAREA");
+      if (e.key === "/" && !typing && (!overlay || overlay.hidden)) {
         e.preventDefault();
         openSearch();
       }
@@ -363,6 +397,18 @@ function isOn(href: string) {
         toggleSidebar();
         return;
       }
+      const row = target.closest(".s-row") as HTMLElement | null;
+      if (row) {
+        const container = row.parentElement as HTMLElement;
+        for (const w of widgets.values()) {
+          if (w.results === container) {
+            const item = w.items[Number(row.dataset.index)];
+            if (item) window.location.href = item.url;
+            break;
+          }
+        }
+        return;
+      }
       const overlay = document.getElementById("searchOverlay");
       if (overlay && !overlay.hidden && target === overlay) closeSearch();
     }
@@ -372,12 +418,14 @@ function isOn(href: string) {
       document.addEventListener("astro:page-load", typeHeader);
       document.addEventListener("astro:page-load", closeMenu);
       document.addEventListener("astro:page-load", closeSearch);
+      document.addEventListener("astro:page-load", initSearchWidgets);
       document.addEventListener("click", runToggle);
       document.addEventListener("click", menuToggle);
       document.addEventListener("click", onDocClick);
       document.addEventListener("keydown", onGlobalKeydown);
       document.addEventListener("input", (e) => {
-        if ((e.target as HTMLElement).id === "searchInput") onSearchInput(e);
+        const w = widgets.get(e.target as HTMLInputElement);
+        if (w) updateWidget(w);
       });
     }
   </script>
