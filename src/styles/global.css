@@ -101,7 +101,7 @@ aside > *{ transition: opacity .1s linear; }
 .side-meta b{ color: var(--muted); font-weight: 400; }
 
 main{
-  min-width: 0; margin-left: var(--side); padding: 42px 48px 0; max-width: 1000px;
+  min-width: 0; margin-left: var(--side); padding: 72px 48px 0; max-width: 1000px;
   transition: margin-left .16s ease-out;
 }
 html.sidebar-collapsed main{ margin-left: 0; }
