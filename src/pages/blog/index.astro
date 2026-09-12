@@ -17,6 +17,7 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
       <li class="post">
         <div class="meta">
           <span>{fmt(post.data.pubDate)}</span>
+          <span>[{post.data.author.toUpperCase()}]</span>
         </div>
         <h2><a href={`/blog/${post.id}`}>{post.data.title}</a></h2>
         <p>{post.data.description}</p>

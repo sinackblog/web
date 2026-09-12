@@ -3,7 +3,7 @@ title: "Zero trust con nginx y ufw"
 description: "Proxy inverso, autenticación por certificado y cortafuegos por servicio en una sola máquina. Sin comprar nada."
 pubDate: "2026-08-28"
 tipo: "lab"
-author: "autor2"
+author: "d"
 tags:
   - nginx
   - zero-trust

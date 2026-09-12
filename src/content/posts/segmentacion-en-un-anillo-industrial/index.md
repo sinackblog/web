@@ -3,7 +3,7 @@ title: "Segmentación en un anillo industrial"
 description: "VLAN, listas de acceso y puerto espejo sobre una topología en anillo montada en laboratorio."
 pubDate: "2026-08-20"
 tipo: "lab"
-author: "autor2"
+author: "d"
 tags:
   - ot
   - redes

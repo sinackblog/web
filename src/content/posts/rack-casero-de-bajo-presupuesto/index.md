@@ -3,7 +3,7 @@ title: "Rack casero de bajo presupuesto"
 description: "Switch gestionable, cortafuegos pequeño y almacenamiento, todo de segunda mano. Qué comprar y qué evitar."
 pubDate: "2026-07-22"
 tipo: "lab"
-author: "autor3"
+author: "a"
 tags:
   - hardware
 estado: "en-curso"

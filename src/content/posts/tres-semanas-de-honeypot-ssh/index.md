@@ -3,7 +3,7 @@ title: "Tres semanas de honeypot SSH: quién llama de verdad a tu puerta"
 description: "Un Cowrie abierto en un VPS sin anunciar. Las credenciales que prueban y qué ejecutan en cuanto entran."
 pubDate: "2026-09-18"
 tipo: "blog"
-author: "autor1"
+author: "s"
 tags:
   - honeypot
   - ssh

@@ -22,6 +22,7 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
     <h1>{post.data.title}</h1>
     <div class="artmeta">
       <span>{fmt(post.data.pubDate)}</span>
+      <span>[{post.data.author.toUpperCase()}]</span>
       <span>{post.data.estado === "en-curso" ? "en curso" : "terminado"}</span>
       {post.data.stack.map((s) => <span>{s}</span>)}
     </div>

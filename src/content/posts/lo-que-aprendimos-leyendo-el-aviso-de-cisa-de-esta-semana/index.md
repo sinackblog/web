@@ -3,7 +3,7 @@ title: "Lo que aprendimos leyendo el aviso de CISA de esta semana"
 description: "Un vistazo al último aviso sobre dispositivos industriales: qué afecta de verdad y qué se puede hacer sin esperar al fabricante."
 pubDate: "2026-09-04"
 tipo: "blog"
-author: "autor3"
+author: "a"
 tags:
   - actualidad
   - avisos

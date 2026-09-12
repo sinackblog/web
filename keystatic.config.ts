@@ -1,11 +1,12 @@
 import { config, fields, collection } from "@keystatic/core";
 
 // Lista cerrada a propósito (ver CLAUDE.md → "Reglas de contenido").
-// Sustituye estos tres valores por los usuarios de GitHub reales de cada autor.
+// Solo la inicial: en el sitio público solo se muestra esta letra, nunca un nombre.
+// El value es el mismo de la letra a propósito, para que tampoco haya nombres en el repo.
 const AUTORES = [
-  { label: "Autor 1", value: "autor1" },
-  { label: "Autor 2", value: "autor2" },
-  { label: "Autor 3", value: "autor3" },
+  { label: "D", value: "d" },
+  { label: "S", value: "s" },
+  { label: "A", value: "a" },
 ];
 
 // Lista cerrada de etiquetas. Añade aquí las que hagan falta según se escriba.
@@ -64,6 +65,7 @@ export default config({
         }),
         author: fields.select({
           label: "Autor",
+          description: "Se muestra tal cual en el sitio público, junto al post.",
           options: AUTORES,
           defaultValue: AUTORES[0].value,
         }),

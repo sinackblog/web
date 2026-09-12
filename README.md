@@ -38,11 +38,11 @@ Dos formas de evitarlo mientras se trabaja en local:
    llamadas HTTP a la API de GitHub (no toca el disco), así que funciona igual en local que en
    producción, con el adaptador de Cloudflare puesto.
 
-## Dar acceso a los tres autores
+## Dar acceso a los demás autores
 
-El repo es de uno de los autores, pero el panel lo van a usar los tres. La forma de hacerlo:
+El repo es de una sola cuenta, pero el panel lo va a usar todo el equipo. La forma de hacerlo:
 
-1. **Añadir a los otros dos como colaboradores** del repo `sinackblog/web` en GitHub, con permiso
+1. **Añadir a los demás como colaboradores** del repo `sinackblog/web` en GitHub, con permiso
    de escritura (Settings → Collaborators).
 2. **Crear una GitHub App** para Keystatic en <https://github.com/settings/apps> → "New GitHub App":
    - Homepage URL: `https://sinack.es`
@@ -66,6 +66,13 @@ El repo es de uno de los autores, pero el panel lo van a usar los tres. La forma
 
 Los autores y las etiquetas son listas cerradas definidas en `keystatic.config.ts`
 (constantes `AUTORES` y `TAGS`) — hay que editarlas ahí para añadir gente o etiquetas nuevas.
+Los autores son solo una inicial (`D`/`S`/`A`); no se pone ningún nombre en el repo, y es lo
+único que se muestra públicamente junto a cada entrada cuando hace falta distinguir quién la
+escribió.
+
+⚠️ **Antes de anunciar el sitio:** todo lo que hay ahora mismo en `src/content/` es contenido
+de prueba para poder ver el diseño con datos reales mientras se construye. Bórralo (o
+sustitúyelo) antes de hacer público el sitio.
 
 ## Desplegar en Cloudflare Pages
 

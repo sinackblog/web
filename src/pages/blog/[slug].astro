@@ -22,6 +22,7 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
     <h1>{post.data.title}</h1>
     <div class="artmeta">
       <span>{fmt(post.data.pubDate)}</span>
+      <span>[{post.data.author.toUpperCase()}]</span>
       {post.data.tags.map((t) => <span>#{t}</span>)}
     </div>
     <Content />

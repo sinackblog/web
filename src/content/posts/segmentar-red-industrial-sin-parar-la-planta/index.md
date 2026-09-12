@@ -3,7 +3,7 @@ title: "Segmentar una red industrial sin parar la planta"
 description: "Zonas y conductos sobre papel es fácil. Sobre un anillo de doce años, menos."
 pubDate: "2026-09-11"
 tipo: "blog"
-author: "autor2"
+author: "d"
 tags:
   - ot
   - redes

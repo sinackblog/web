@@ -3,7 +3,7 @@ title: "Honeypot SSH con Cowrie"
 description: "Montaje sobre Debian, redirección de puertos, recogida de logs y volcado a Elasticsearch. Con los datos de tres semanas de capturas."
 pubDate: "2026-09-14"
 tipo: "lab"
-author: "autor1"
+author: "s"
 tags:
   - honeypot
   - ssh

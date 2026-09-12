@@ -20,6 +20,7 @@ const labs = (await getCollection("posts", ({ data }) => !data.draft && data.tip
         <h3>{lab.data.title}</h3>
         <p>{lab.data.description}</p>
         <div class="pie-caja">
+          <span>[{lab.data.author.toUpperCase()}]</span>
           {lab.data.stack.map((s) => <span>{s}</span>)}
         </div>
       </a>

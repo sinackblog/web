@@ -3,7 +3,7 @@ title: "Detección de Modbus con Suricata en un anillo simulado"
 description: "Tres PLC simulados, un puerto espejo y reglas afinadas hasta quitar los falsos positivos."
 pubDate: "2026-09-14"
 tipo: "lab"
-author: "autor3"
+author: "a"
 tags:
   - ot
 estado: "en-curso"

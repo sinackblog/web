@@ -3,7 +3,7 @@ title: "SIEM casero con Wazuh"
 description: "Agentes, reglas propias y los primeros paneles útiles. Qué se ve el primer día y qué hay que afinar después."
 pubDate: "2026-08-05"
 tipo: "lab"
-author: "autor1"
+author: "s"
 tags:
   - siem
 estado: "terminado"
