@@ -122,6 +122,7 @@ function isOn(href: string) {
           placeholder="título de un post, lab o ficha…"
         />
       </div>
+      <div class="search-hint" id="searchHint"></div>
     </div>
   </div>
 
@@ -129,7 +130,7 @@ function isOn(href: string) {
     <div class="cols">
       <div class="pie-brand">
         <span class="pie-icon">&gt;ack</span>
-        <p>Labs, redes y seguridad. Todo escrito fuera de horario, sin encargo de nadie.</p>
+        <p>Labs, redes y seguridad.</p>
       </div>
       <div>
         <h5>secciones</h5>
@@ -280,12 +281,31 @@ function isOn(href: string) {
       return !!el && (el.id === "searchInput" || el.id === "homeSearchInput");
     }
 
+    function hintFor(input: HTMLInputElement): HTMLElement | null {
+      if (input.id === "searchInput") return document.getElementById("searchHint");
+      if (input.id === "homeSearchInput") return document.getElementById("homeSearchHint");
+      return null;
+    }
+
+    async function updateHint(input: HTMLInputElement) {
+      const hint = hintFor(input);
+      if (!hint) return;
+      if (!input.value.trim()) {
+        hint.textContent = "";
+        return;
+      }
+      const items = await loadSearchIndex();
+      const match = topMatch(items, input.value);
+      hint.textContent = match ? `→ ${match.title} · ${match.section}` : "sin coincidencias";
+    }
+
     function openSearch() {
       const overlay = document.getElementById("searchOverlay") as HTMLElement | null;
       const input = document.getElementById("searchInput") as HTMLInputElement | null;
       if (!overlay || !input) return;
       overlay.hidden = false;
       input.value = "";
+      updateHint(input);
       requestAnimationFrame(() => overlay.classList.add("in"));
       input.focus();
       loadSearchIndex();
@@ -347,6 +367,10 @@ function isOn(href: string) {
       document.addEventListener("click", menuToggle);
       document.addEventListener("click", onDocClick);
       document.addEventListener("keydown", onGlobalKeydown);
+      document.addEventListener("input", (e) => {
+        const input = e.target as HTMLInputElement;
+        if (isSearchInput(input)) updateHint(input);
+      });
     }
   </script>
 </body>
