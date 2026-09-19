@@ -5,7 +5,7 @@ Contexto del proyecto para trabajar en este repositorio.
 ## Qué es
 
 sinack es un sitio sobre ciberseguridad. No es solo un blog: tiene secciones de blog, labs,
-documentación y portfolio. Se escribe fuera del horario laboral, sin encargo de nadie.
+documentación y portfolio.
 
 - Dominio: **sinack.es** (registrado en DonDominio, DNS aún en los nameservers del registrador)
 - Repositorio: **github.com/sinackblog/web**
@@ -17,7 +17,8 @@ documentación y portfolio. Se escribe fuera del horario laboral, sin encargo de
 - **Astro** como generador estático
 - **Keystatic** como panel de edición, en `/keystatic`, con `storage: github`
 - **Cloudflare Pages** como hosting, conectado al repo (despliega en cada push a `main`)
-- Sin base de datos, sin comentarios, sin analítica, sin cookies
+- Sin base de datos, sin comentarios, sin cookies
+- Analítica de tráfico: Cloudflare Web Analytics (sin cookies, sin fingerprinting)
 
 Decisión importante: **no se usa GitHub Pages**. El panel de Keystatic necesita rutas
 renderizadas en servidor y GitHub Pages solo sirve estáticos.

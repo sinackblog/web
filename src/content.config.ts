@@ -6,7 +6,10 @@ const blog = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    pubDate: z.string().transform((s) => new Date(s)),
+    // Keystatic escribe la fecha sin comillas en el YAML (2026-01-01), lo que
+    // hace que el parser la entregue ya como Date en vez de string. z.coerce
+    // acepta los dos casos (fecha escrita a mano como texto, o por Keystatic).
+    pubDate: z.coerce.date(),
     author: z.string(),
     tags: z.array(z.string()),
     draft: z.boolean().default(true),
@@ -18,7 +21,7 @@ const labs = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    pubDate: z.string().transform((s) => new Date(s)),
+    pubDate: z.coerce.date(),
     author: z.string(),
     tags: z.array(z.string()),
     estado: z.enum(["terminado", "en-curso"]),
