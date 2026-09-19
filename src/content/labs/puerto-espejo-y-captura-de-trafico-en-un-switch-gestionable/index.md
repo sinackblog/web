@@ -24,7 +24,7 @@ Se define el origen, que puede ser un puerto o una VLAN entera, y el destino, qu
 
 **A tener en cuenta**
 
-![](0e32be25-6d48-4cd1-b16c-4a0964a4d014.png)
+![](content/0e32be25-6d48-4cd1-b16c-4a0964a4d014.png)
 
 El destino no debe estar en producción: mientras hace de espejo no pasa tráfico normal. Y si el origen es una VLAN con mucha carga, puedes saturar el puerto de destino y perder paquetes sin enterarte; conviene comprobar el contador de descartes antes de fiarte de lo capturado.
 
