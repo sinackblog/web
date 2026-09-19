@@ -7,7 +7,7 @@ pubDate: 2026-09-19
 author: s
 tags:
   - Ciber
-draft: true
+draft: false
 ---
 Es de las primeras recomendaciones que aparece en cualquier guía: cambia el puerto 22. Y funciona, pero no para lo que la gente cree.
 
