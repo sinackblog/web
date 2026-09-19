@@ -8,7 +8,7 @@ author: s
 tags: []
 estado: terminado
 stack: []
-draft: true
+draft: false
 ---
 **Qué se monta**
 
