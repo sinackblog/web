@@ -9,20 +9,6 @@ const AUTORES = [
   { label: "A", value: "a" },
 ];
 
-// Lista cerrada de etiquetas. Añade aquí las que hagan falta según se escriba.
-const TAGS = [
-  "honeypot",
-  "ssh",
-  "ot",
-  "redes",
-  "actualidad",
-  "avisos",
-  "nginx",
-  "zero-trust",
-  "siem",
-  "hardware",
-].map((t) => ({ label: t, value: t }));
-
 // import.meta.env, no process.env: este archivo también se empaqueta para el navegador
 // (el panel /keystatic es una app React que necesita conocer la configuración).
 const isGithub = import.meta.env.PUBLIC_KEYSTATIC_STORAGE_KIND === "github";
@@ -61,9 +47,9 @@ export default config({
           options: AUTORES,
           defaultValue: AUTORES[0].value,
         }),
-        tags: fields.multiselect({
+        tags: fields.array(fields.text({ label: "Etiqueta" }), {
           label: "Etiquetas",
-          options: TAGS,
+          itemLabel: (props) => props.value || "—",
         }),
         draft: fields.checkbox({ label: "Borrador", defaultValue: true }),
         content: fields.markdoc({
@@ -98,9 +84,9 @@ export default config({
           options: AUTORES,
           defaultValue: AUTORES[0].value,
         }),
-        tags: fields.multiselect({
+        tags: fields.array(fields.text({ label: "Etiqueta" }), {
           label: "Etiquetas",
-          options: TAGS,
+          itemLabel: (props) => props.value || "—",
         }),
         estado: fields.select({
           label: "Estado",
