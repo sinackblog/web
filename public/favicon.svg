@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
     <rect width="128" height="128" rx="26" class="bg" />
-    <path d="M40 34 L74 64 L40 94" fill="none" stroke-width="8" stroke-linecap="square" stroke-linejoin="bevel" class="mark" />
-    <rect x="84" y="88" width="26" height="8" class="mark" />
+    <path d="M39 20 L87 64 L39 108 L33 100 L73 64 L33 28 Z" class="mark" />
+    <rect x="90" y="90" width="24" height="10" class="mark" />
     <style>
         .bg { fill: #000; }
-        .mark { stroke: #FFF; fill: #FFF; }
+        .mark { fill: #FFF; }
         @media (prefers-color-scheme: dark) {
             .bg { fill: #FFF; }
-            .mark { stroke: #000; fill: #000; }
+            .mark { fill: #000; }
         }
     </style>
 </svg>
