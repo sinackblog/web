@@ -23,17 +23,47 @@ En el menú de la izquierda hay 4 colecciones:
 
 ## 3. Crear una entrada
 
-1. Entra en la colección que toque (p.ej. **Blog**) y dale a **"Create"** (arriba a la derecha) o al **+** de la colección en el Dashboard.
-2. Rellena los campos:
-   - **Título** — el titular. El **Slug** (la URL) se genera solo a partir del título; no hace falta tocarlo. **Ojo al copiar y pegar el título**: que no se cuele texto de más (nos pasó con la palabra "Slug" pegada sin querer al final de un título).
-   - **Descripción** — resumen corto (entre 50 y 160 caracteres), es lo que se ve en los listados.
-   - **Fecha de publicación** — por defecto hoy, cámbiala si hace falta.
-   - **Autor** — tu inicial (D / S / A). **Nunca pongas tu nombre real en ningún campo** — es la única regla dura del sitio.
-   - **Etiquetas** — las que quieras, texto libre. Dale a "Add" para meter más de una.
-   - Solo en **Labs**: **Estado** (terminado / en curso) y **Stack** (herramientas usadas).
-   - **Borrador** — con la casilla marcada, la entrada se guarda pero **no se ve en la web pública**. Es el estado por defecto al crear.
-   - **Contenido** — el cuerpo del artículo, en el editor de abajo. Soporta títulos, negrita, cursiva, listas, citas, bloques de código y enlaces con la barra de herramientas de arriba.
-3. Dale a **"Create"** (o "Save" si ya existía) arriba a la derecha.
+Entra en la colección que toque y dale a **"Create"** (arriba a la derecha) o al **+** de la colección en el Dashboard. Cada sección tiene sus propios campos:
+
+### Blog
+
+- **Título** — el titular. El **Slug** (la URL) se genera solo a partir del título; no hace falta tocarlo. Ojo al copiar y pegar: que no se cuele texto de más al final (nos pasó con la palabra "Slug" pegada sin querer a un título).
+- **Descripción** — resumen corto, entre 50 y 160 caracteres. Es lo que se ve en el listado del blog.
+- **Fecha de publicación** — hoy por defecto, cámbiala si hace falta.
+- **Autor** — tu inicial (D / S / A).
+- **Etiquetas** — las que quieras, texto libre. "Add" para meter más de una.
+- **Borrador** — marcada por defecto; mientras esté marcada, no se ve en la web pública.
+- **Contenido** — el cuerpo del artículo.
+
+### Labs
+
+Los mismos campos que Blog (Título, Descripción, Fecha, Autor, Etiquetas, Borrador, Contenido), más:
+
+- **Estado** — Terminado o En curso.
+- **Stack** — herramientas o tecnologías usadas en el montaje, una por línea.
+
+### Documentación
+
+- **Título** — el nombre de la ficha.
+- **Grupo (carpeta)** — agrupa las fichas en `/docs` (p.ej. `fortinet`, `redes`, `ot`). Fichas con el mismo grupo salen juntas.
+- **Descripción corta** — resumen de una línea.
+- **Borrador**.
+- **Contenido**.
+
+### Portfolio
+
+- **Título** — el nombre del proyecto o herramienta.
+- **Tipo** — Proyecto o Herramienta.
+- **Estado** — Activo, En curso o Terminado.
+- **Descripción**.
+- **Stack / etiquetas** — tecnologías, una por línea.
+- **Enlace (repo, demo…)** — opcional, URL a donde corresponda.
+- **Borrador**.
+- **Contenido**.
+
+**Nunca pongas tu nombre real en ningún campo** — es la única regla dura del sitio, solo iniciales.
+
+Cuando termines de rellenar, dale a **"Create"** (o "Save" si ya existía) arriba a la derecha.
 
 ## 4. Añadir imágenes
 
