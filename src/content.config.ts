@@ -1,17 +1,23 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
+// Keystatic escribe los valores en YAML sin comillas cuando puede. Si el
+// texto que alguien escribe coincide con una palabra especial de YAML
+// (fechas sin comillas, o "si"/"no"/"true"/"null"/un número puro como
+// etiqueta o título), el parser lo entrega ya convertido a Date/boolean/
+// number en vez de string, y z.string() lo rechaza y rompe el build entero
+// para todo el mundo. z.coerce.string()/z.coerce.date() aceptan los dos
+// casos sin perder nada (recuperan el texto tal cual se escribió).
+const text = z.coerce.string();
+
 const blog = defineCollection({
   loader: glob({ pattern: "*/index.md", base: "./src/content/blog" }),
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    // Keystatic escribe la fecha sin comillas en el YAML (2026-01-01), lo que
-    // hace que el parser la entregue ya como Date en vez de string. z.coerce
-    // acepta los dos casos (fecha escrita a mano como texto, o por Keystatic).
+    title: text,
+    description: text,
     pubDate: z.coerce.date(),
-    author: z.string(),
-    tags: z.array(z.string()),
+    author: text,
+    tags: z.array(text).default([]),
     draft: z.boolean().default(true),
   }),
 });
@@ -19,13 +25,13 @@ const blog = defineCollection({
 const labs = defineCollection({
   loader: glob({ pattern: "*/index.md", base: "./src/content/labs" }),
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
+    title: text,
+    description: text,
     pubDate: z.coerce.date(),
-    author: z.string(),
-    tags: z.array(z.string()),
+    author: text,
+    tags: z.array(text).default([]),
     estado: z.enum(["terminado", "en-curso"]),
-    stack: z.array(z.string()).default([]),
+    stack: z.array(text).default([]),
     draft: z.boolean().default(true),
   }),
 });
@@ -33,9 +39,9 @@ const labs = defineCollection({
 const docs = defineCollection({
   loader: glob({ pattern: "*/index.md", base: "./src/content/docs" }),
   schema: z.object({
-    title: z.string(),
-    grupo: z.string(),
-    description: z.string(),
+    title: text,
+    grupo: text,
+    description: text,
     draft: z.boolean().default(true),
   }),
 });
@@ -43,12 +49,12 @@ const docs = defineCollection({
 const portfolio = defineCollection({
   loader: glob({ pattern: "*/index.md", base: "./src/content/portfolio" }),
   schema: z.object({
-    title: z.string(),
+    title: text,
     tipo: z.enum(["proyecto", "herramienta"]),
     estado: z.enum(["activo", "en-curso", "terminado"]),
-    description: z.string(),
-    stack: z.array(z.string()).default([]),
-    url: z.string().optional(),
+    description: text,
+    stack: z.array(text).default([]),
+    url: text.optional(),
     draft: z.boolean().default(true),
   }),
 });
