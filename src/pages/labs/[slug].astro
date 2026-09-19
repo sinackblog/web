@@ -5,7 +5,7 @@ import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
-  const labs = await getCollection("posts", ({ data }) => !data.draft && data.tipo === "lab");
+  const labs = await getCollection("labs", ({ data }) => !data.draft);
   return labs.map((post) => ({
     params: { slug: post.id },
     props: { post },

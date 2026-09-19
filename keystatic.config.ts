@@ -37,9 +37,9 @@ export default config({
   },
 
   collections: {
-    posts: collection({
-      label: "Blog y labs",
-      path: "src/content/posts/*/",
+    blog: collection({
+      label: "Blog",
+      path: "src/content/blog/*/",
       slugField: "title",
       format: { contentField: "content" },
       entryLayout: "content",
@@ -55,13 +55,42 @@ export default config({
           label: "Fecha de publicación",
           defaultValue: { kind: "today" },
         }),
-        tipo: fields.select({
-          label: "Tipo",
-          options: [
-            { label: "Blog", value: "blog" },
-            { label: "Lab", value: "lab" },
-          ],
-          defaultValue: "blog",
+        author: fields.select({
+          label: "Autor",
+          description: "Se muestra tal cual en el sitio público, junto al post.",
+          options: AUTORES,
+          defaultValue: AUTORES[0].value,
+        }),
+        tags: fields.multiselect({
+          label: "Etiquetas",
+          options: TAGS,
+        }),
+        draft: fields.checkbox({ label: "Borrador", defaultValue: true }),
+        content: fields.markdoc({
+          label: "Contenido",
+          description: "Texto en markdown: títulos, negritas, enlaces, imágenes, listas, bloques de código.",
+          extension: "md",
+        }),
+      },
+    }),
+
+    labs: collection({
+      label: "Labs",
+      path: "src/content/labs/*/",
+      slugField: "title",
+      format: { contentField: "content" },
+      entryLayout: "content",
+      schema: {
+        title: fields.slug({ name: { label: "Título" } }),
+        description: fields.text({
+          label: "Descripción",
+          description: "Entre 50 y 160 caracteres. Se usa en listados y meta tags.",
+          multiline: true,
+          validation: { length: { min: 50, max: 160 } },
+        }),
+        pubDate: fields.date({
+          label: "Fecha de publicación",
+          defaultValue: { kind: "today" },
         }),
         author: fields.select({
           label: "Autor",
@@ -74,7 +103,7 @@ export default config({
           options: TAGS,
         }),
         estado: fields.select({
-          label: "Estado (solo labs)",
+          label: "Estado",
           options: [
             { label: "Terminado", value: "terminado" },
             { label: "En curso", value: "en-curso" },
@@ -84,7 +113,7 @@ export default config({
         stack: fields.array(
           fields.text({ label: "Herramienta / tecnología" }),
           {
-            label: "Stack (solo labs)",
+            label: "Stack",
             itemLabel: (props) => props.value || "—",
           }
         ),

@@ -3,14 +3,20 @@ import { getCollection } from "astro:content";
 export const prerender = true;
 
 export async function GET() {
-  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const blog = await getCollection("blog", ({ data }) => !data.draft);
+  const labs = await getCollection("labs", ({ data }) => !data.draft);
   const docs = await getCollection("docs", ({ data }) => !data.draft);
 
   const items = [
-    ...posts.map((p) => ({
+    ...blog.map((p) => ({
       title: p.data.title,
-      url: `/${p.data.tipo === "blog" ? "blog" : "labs"}/${p.id}`,
-      section: p.data.tipo === "blog" ? "blog" : "lab",
+      url: `/blog/${p.id}`,
+      section: "blog",
+    })),
+    ...labs.map((p) => ({
+      title: p.data.title,
+      url: `/labs/${p.id}`,
+      section: "lab",
     })),
     ...docs.map((d) => ({
       title: d.data.title,

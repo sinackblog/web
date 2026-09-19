@@ -12,9 +12,8 @@ interface Props {
 
 const { title, ruta, cmd, sub = "" } = Astro.props;
 
-const allPosts = await getCollection("posts", ({ data }) => !data.draft);
-const numPosts = allPosts.filter((p) => p.data.tipo === "blog").length;
-const numLabs = allPosts.filter((p) => p.data.tipo === "lab").length;
+const numPosts = (await getCollection("blog", ({ data }) => !data.draft)).length;
+const numLabs = (await getCollection("labs", ({ data }) => !data.draft)).length;
 
 const nav = [
   { href: "/", key: "home", label: "inicio" },
