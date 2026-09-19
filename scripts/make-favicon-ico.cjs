@@ -41,12 +41,12 @@ function isMark(px, py) {
   return hits / 9; // 0..1 de cobertura negra
 }
 
-// --- Construye el bitmap 32bpp BGRA, fondo blanco, marca negra ---
+// --- Construye el bitmap 32bpp BGRA, fondo negro, marca blanca ---
 const pixels = Buffer.alloc(SIZE * SIZE * 4);
 for (let y = 0; y < SIZE; y++) {
   for (let x = 0; x < SIZE; x++) {
-    const cov = isMark(x, y); // 0 = blanco, 1 = negro
-    const v = Math.round(255 * (1 - cov));
+    const cov = isMark(x, y); // 0 = fondo, 1 = marca
+    const v = Math.round(255 * cov);
     // ICO/BMP se guarda de abajo hacia arriba
     const row = SIZE - 1 - y;
     const off = (row * SIZE + x) * 4;
