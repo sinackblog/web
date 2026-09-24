@@ -11,7 +11,7 @@ tags:
   - Siem
 estado: terminado
 stack: []
-draft: true
+draft: false
 ---
 ### Arquitectura y topología:
 
@@ -209,8 +209,8 @@ $confPath = "C:\Program Files (x86)\ossec-agent\ossec.conf"
 $nuevaConfig = ' <directories check_all="yes" report_changes="yes" realtime="yes">C:\Secretos</directories>'
 
 (Get-Content $confPath) | ForEach-Object {\
-$_\
-if ($_ -match "<syscheck>") { $nuevaConfig }\
+$\
+*if ($* -match "<syscheck>") { $nuevaConfig }\
 } | Set-Content $confPath
 
 Con este comando le estamos indicando al servidor Wazuh que ponga su atencion en ese fichero y que lo vigile pase lo que pase, por eso al modificarlo despues nos deberia alertar ya que manualmente lo hemos asignado asi
