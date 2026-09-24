@@ -136,6 +136,8 @@ sudo iptables -t nat -A PREROUTING -p tcp --dport 22 -j REDIRECT --to-port 2223
 
 - Modificamos donde sale el hostname y lo hacemos ver como un servidor de base de datos
 
+![](./content/lab-honeypot-cowrie/c70de798-bed4-4dbb-9785-a6cfce86a88c.png)
+
 en el mismo fichero nos vamos al apartado de SSH y en esta linea modificamos el puerto tambien, para aislar nuestro puerto 22 , y que el atacante entre por el 2223
 
 ![](./content/lab-honeypot-cowrie/image.png)
