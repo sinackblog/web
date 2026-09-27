@@ -28,7 +28,7 @@ draft: false
   - Vincular IP servidor
   - Verificar que el agente aparece como Activo
 
-![](image.png)
+![](muk4xemt-41wayguk.png)
 
 ### Ejecución:
 
@@ -54,7 +54,7 @@ Este proyecto consiste en el despliegue de un entorno de laboratorio técnico pa
 
 Con las 3 Maquinas listas procedemos a empezar el laboratorio
 
-![](image.png)
+![](muk4xnd7-yt2jyeuv.png)
 
 # 1.Windows 11
 
@@ -79,19 +79,21 @@ Comprobamos direcciones IP de las 3 maquinas (en mi caso son las siguientes). Im
 - Generador de Amenazas
 {% /table %}
 
-![](image.png)
+![](muk4xram-ftjx6s16.png)
 
-![](image.png)![](image.png)
+![](muk4xuc2-xf4f4sq7.png)
+
+![](muk4y0gq-7hldyp6c.png)
 
 Y comprobamos la conectividad entre maquina con el comando ping. en mi caso desde el kali linux al servidor Wazuh y a la maquina Windows
 
 “Importante en Windows desactivar el firewall ya que bloquea el ICMP por defecto”
 
-![](image.png)
+![](muk4y5ub-vl09wp77.png)
 
 y como podemos observar hay conexión
 
-![](image.png)
+![](muk4ya4x-7qpauyxy.png)
 
 En el buscador de la maquina Windows ya que va a actuar como cerebro nos vamos al siguiente enlace
 
@@ -99,9 +101,9 @@ https://10.201.3.11
 
 . Nos aparecerá lo siguiente ya que es normal que no la reconozca, pero le daremos a avanzado y continuar, con eso accederemos al servidor wazuh
 
-![](image.png)
+![](muk4yeur-wb4bkgdd.png)
 
-![](image.png)
+![](muk4yhy5-2q62pczx.png)
 
 1. Ingresamos el usuario y contraseña: admin / admin y ya estaremos dentro
 
@@ -109,25 +111,25 @@ https://10.201.3.11
 
    Seleccionamos Windows:
 
-   ![](image.png)
+   ![](muk4yldh-66lo3t3l.png)
 
    Añadimos la dirección IP
 
-   ![](image.png)
+   ![](muk4yonj-46tzu9c6.png)
 
    Insertamos el nombre
 
-   ![](image.png)
+   ![](muk4yys5-j8umyyz3.png)
 
    Ejecutamos en powershell el comando que nos proporciona
 
-   ![](image.png)
+   ![](muk4z2q1-ugkk8zyz.png)
 
-   ![](image.png)
+   ![](muk4z5t0-dtn0mzjf.png)
 
    Con esto conseguimos que se inicie el servidor y realice una conectividad exitosa
 
-   ![](image.png)
+   ![](muk4zci5-q2wqtn1x.png)
 
    # 2.Fase Ataque “Kali Linux”
 
@@ -135,17 +137,17 @@ https://10.201.3.11
 
       Con esto conseguimos realizar un escaneo de puertos sigiloso
 
-      ![](image.png)
+      ![](muk4zhfj-7s45p0ub.png)
 
       Podemos observar los 3 servicios de Windows activos
 
       1. En la maquina Windows volvemos a nuestro agente
 
-         ![](image.png)
+         ![](muk4zkk9-ghm9eas4.png)
 
          Accedemos a Threat Hunting y clickamos en Events
 
-         ![](image.png)
+         ![](muk4zp1q-ywz48f3a.png)
 
          Con esto vemos todos los eventos que ha detectado, pero ¿Y el comando NMAP desde el kali?. Bueno este comando no lo ha detectado, solo conseguimos ver las instalaciones que hemos realizado, por eso vamos a hacer un ataque a fuerza bruta para que el servidor Wazuh detecte la alerta, para ello nos vamos a la maquina Kali y ejecutamos lo siguiente
 
@@ -198,11 +200,11 @@ https://10.201.3.11
 
          Si nos vamos a Eventos y refrescamos podemos ver como ha detectado la auditoria de inicio de sesión no valido
 
-         ![](image.png)
+         ![](muk4zuvx-2lfphqe9.png)
 
          Por si esto no es suficiente vamos a probar a crear un FIM (File Integrity Monitoring) para ello Crearemos un archivo "secreto" en el escritorio de Windows y veremos cómo Wazuh te avisa en segundos si alguien lo toca o lo borra.
 
-         ![](image.png)
+         ![](muk4zz6q-purqi4vn.png)
 
          Una vez creado esto ejecutamos lo siguiente
 
@@ -221,10 +223,10 @@ https://10.201.3.11
 
          Por ultimo modificamos el fichero passwords.txt añadiendole cualquier linea y al volver al servidor Wazuh…
 
-         ![](image.png)
+         ![](muk502y8-7sbdx76s.png)
 
          Al haberle añadido una línea mas, te esta indicando el porcentaje de línea que se añadió al crearlo y después lo que se modifico en cuanto pusimos la alerta. esta practica puedes aplicarla con ficheros, carpetas personales o importantes, en un entorno de red con dos pequeños pasos puedes aplicarle un nivel de seguridad extra a tus documentos
 
          ## El laboratorio ha demostrado con éxito la importancia de la defensa en profundidad. Se observó que un SIEM por sí solo tiene visibilidad limitada si el endpoint no tiene configuradas correctamente sus Directivas de Auditoría. La integración de Wazuh permitió no solo detectar la intrusión y la manipulación de datos, sino también proporcionar una postura proactiva mediante la gestión de vulnerabilidades, permitiendo al equipo del SOC actuar antes de que las debilidades sean explotadas
 
-         ![](image.png)
+         ![](./content/soc-wazuh-siem/image.png)
