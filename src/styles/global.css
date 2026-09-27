@@ -181,7 +181,7 @@ article pre, .shell{
   margin: 0 0 23px; overflow-x: auto; white-space: pre;
 }
 article code{ font-family: var(--mono); font-size: .92em; }
-article :not(pre) > code{ background: var(--rule2); padding: .1em .35em; border-radius: 3px; }
+article :not(pre) > code{ background: var(--rule2); padding: .1em .35em; border-radius: 3px; overflow-wrap: anywhere; }
 .shell .p, .shell .c{ color: #8b8b96; }
 article blockquote, .note{ border-left: 2px solid var(--ink); padding: 2px 0 2px 17px; margin: 0 0 23px; color: var(--soft); font-size: 17px; }
 article blockquote p{ margin: 0; }
