@@ -162,7 +162,7 @@ html.sidebar-collapsed main{ margin-left: 0; }
 .docs .ficha:hover b{ text-decoration: underline; text-underline-offset: 3px; }
 .docs .ficha b{ font-weight: 500; color: var(--ink); min-width: 240px; }
 
-article{ max-width: 680px; }
+article{ max-width: 900px; }
 article h1{ font-family: var(--mono); font-weight: 500; font-size: 26px; line-height: 1.28; letter-spacing: -.02em; margin: 0 0 12px; }
 .artmeta{ font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: flex; gap: 16px; margin-bottom: 30px; }
 article p{ margin: 0 0 21px; color: var(--soft); }
@@ -171,10 +171,7 @@ article strong{ font-weight: 600; color: var(--ink); }
 article ul, article ol{ color: var(--soft); margin: 0 0 21px; padding-left: 22px; }
 article li{ margin-bottom: 8px; }
 article a{ color: var(--ink); }
-article img{
-  max-width: min(900px, calc(100vw - 96px)); width: auto; height: auto;
-  border-radius: 4px; margin: 0 0 25px 50%; transform: translateX(-50%); display: block;
-}
+article img{ max-width: 100%; width: auto; height: auto; border-radius: 4px; margin: 0 0 25px; display: block; }
 article pre, .shell{
   background: var(--shell); color: var(--shell-ink); font-family: var(--mono);
   font-size: 13.5px; line-height: 1.72; padding: 19px 21px; border-radius: 6px;
