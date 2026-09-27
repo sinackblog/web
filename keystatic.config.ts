@@ -13,6 +13,17 @@ const AUTORES = [
 // (el panel /keystatic es una app React que necesita conocer la configuración).
 const isGithub = import.meta.env.PUBLIC_KEYSTATIC_STORAGE_KIND === "github";
 
+// Sin esto, dos imágenes subidas con el mismo nombre de archivo (p.ej. dos
+// capturas llamadas "image.png") se pisan la una a la otra: Keystatic usa el
+// nombre de archivo original tal cual si no le decimos lo contrario. Genera
+// un nombre único por subida, conservando la extensión.
+function uniqueFilename(originalFilename: string) {
+  const match = originalFilename.match(/\.[^.]+$/);
+  const ext = match ? match[0] : "";
+  const random = Math.random().toString(36).slice(2, 10);
+  return `${Date.now().toString(36)}-${random}${ext}`;
+}
+
 export default config({
   storage: isGithub
     ? { kind: "github", repo: "sinackblog/web" }
@@ -56,7 +67,7 @@ export default config({
           label: "Contenido",
           description: "Texto en markdown: títulos, negritas, enlaces, imágenes, listas, bloques de código.",
           extension: "md",
-          options: { image: { publicPath: "./content/" } },
+          options: { image: { transformFilename: uniqueFilename } },
         }),
       },
     }),
@@ -109,7 +120,7 @@ export default config({
           label: "Contenido",
           description: "Texto en markdown: títulos, negritas, enlaces, imágenes, listas, bloques de código.",
           extension: "md",
-          options: { image: { publicPath: "./content/" } },
+          options: { image: { transformFilename: uniqueFilename } },
         }),
       },
     }),
@@ -131,7 +142,7 @@ export default config({
         content: fields.markdoc({
           label: "Contenido",
           extension: "md",
-          options: { image: { publicPath: "./content/" } },
+          options: { image: { transformFilename: uniqueFilename } },
         }),
       },
     }),
@@ -174,7 +185,7 @@ export default config({
         content: fields.markdoc({
           label: "Contenido",
           extension: "md",
-          options: { image: { publicPath: "./content/" } },
+          options: { image: { transformFilename: uniqueFilename } },
         }),
       },
     }),
