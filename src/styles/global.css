@@ -162,7 +162,7 @@ html.sidebar-collapsed main{ margin-left: 0; }
 .docs .ficha:hover b{ text-decoration: underline; text-underline-offset: 3px; }
 .docs .ficha b{ font-weight: 500; color: var(--ink); min-width: 240px; }
 
-article{ max-width: 900px; }
+article{ max-width: 900px; overflow-wrap: anywhere; }
 article h1{ font-family: var(--mono); font-weight: 500; font-size: 26px; line-height: 1.28; letter-spacing: -.02em; margin: 0 0 12px; }
 .artmeta{ font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: flex; gap: 16px; margin-bottom: 30px; }
 article p{ margin: 0 0 21px; color: var(--soft); }
