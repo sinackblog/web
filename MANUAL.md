@@ -10,6 +10,8 @@ Guía rápida para subir contenido al sitio. No hace falta tocar código ni git:
 
 Si alguna vez ves "Sign in to Cloudflare" o algo de Cloudflare, te has equivocado de sitio: el panel es `sinack.es/keystatic`, no la dashboard de Cloudflare.
 
+**Refresca la pestaña (F5) antes de ponerte a escribir**, sobre todo si la tenías abierta desde el día anterior o de una sesión larga. El panel es una app que se actualiza con cada arreglo que hacemos en el sitio; si la pestaña lleva mucho tiempo abierta, puede quedarse con una versión vieja cargada en el navegador.
+
 ## 2. Las secciones
 
 En el menú de la izquierda hay 4 colecciones:
