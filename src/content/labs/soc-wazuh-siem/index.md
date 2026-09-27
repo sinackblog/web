@@ -81,9 +81,7 @@ Comprobamos direcciones IP de las 3 maquinas (en mi caso son las siguientes). Im
 
 ![](./content/soc-wazuh-siem/image.png)
 
-![](./content/soc-wazuh-siem/image.png)
-
-![](./content/soc-wazuh-siem/image.png)
+![](./content/soc-wazuh-siem/image.png)![](./content/soc-wazuh-siem/image.png)
 
 Y comprobamos la conectividad entre maquina con el comando ping. en mi caso desde el kali linux al servidor Wazuh y a la maquina Windows
 
@@ -208,14 +206,14 @@ https://10.201.3.11
 
          Una vez creado esto ejecutamos lo siguiente
 
-         $confPath = "C:\Program Files (x86)\ossec-agent\ossec.conf"
+         `$confPath = "C:\Program Files (x86)\ossec-agent\ossec.conf"`
 
-         $nuevaConfig = ' <directories check_all="yes" report_changes="yes" realtime="yes">C:\Secretos</directories>'
+         `$nuevaConfig = ' <directories check_all="yes" report_changes="yes" realtime="yes">C:\Secretos</directories>'`
 
-         (Get-Content $confPath) | ForEach-Object {\
-         $_\
-         if ($_ -match "<syscheck>") { $nuevaConfig }\
-         } | Set-Content $confPath
+         `(Get-Content $confPath) | ForEach-Object {`\
+         `$`\
+         *`if ($`*`-match "<syscheck>") { $nuevaConfig }`\
+         `} | Set-Content $confPath`
 
          Con este comando le estamos indicando al servidor Wazuh que ponga su atencion en ese fichero y que lo vigile pase lo que pase, por eso al modificarlo despues nos deberia alertar ya que manualmente lo hemos asignado asi
 
