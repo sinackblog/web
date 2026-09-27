@@ -229,4 +229,3 @@ https://10.201.3.11
 
          ## El laboratorio ha demostrado con éxito la importancia de la defensa en profundidad. Se observó que un SIEM por sí solo tiene visibilidad limitada si el endpoint no tiene configuradas correctamente sus Directivas de Auditoría. La integración de Wazuh permitió no solo detectar la intrusión y la manipulación de datos, sino también proporcionar una postura proactiva mediante la gestión de vulnerabilidades, permitiendo al equipo del SOC actuar antes de que las debilidades sean explotadas
 
-         ![](./content/soc-wazuh-siem/image.png)
