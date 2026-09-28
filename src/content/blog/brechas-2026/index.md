@@ -1,5 +1,5 @@
 ---
-title: 'El patrón de 2026: casi nadie entró por la puerta principal'
+title: 'El patrón de 2026: casi nadie entra por la puerta principal'
 description: >-
   as grandes brechas del año no atacaron a la víctima directamente, sino a un
   proveedor suyo. Qué significa eso y cómo se defiende uno.
