@@ -134,7 +134,7 @@ html.sidebar-collapsed main{ margin-left: 0; }
 .post{ padding: 22px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 20px; }
 .post:first-child{ padding-top: 0; }
 .post-thumb{
-  width: 150px; height: 100px; object-fit: cover; border-radius: 6px; flex-shrink: 0;
+  width: 110px; height: 110px; object-fit: cover; border-radius: 6px; flex-shrink: 0;
   background: var(--rule2);
 }
 .post-body{ min-width: 0; }
@@ -283,7 +283,7 @@ html.sidebar-collapsed .pie{ margin-left: 0; }
   .docs .ficha b{ min-width: 0; }
   article h1{ font-size: 22px; }
   article pre, .run .out{ font-size: 12px; }
-  .post-thumb{ width: 90px; height: 70px; }
+  .post-thumb{ width: 80px; height: 80px; }
 }
 @media (prefers-reduced-motion: reduce){
   .blink{ animation: none; }
