@@ -10,6 +10,7 @@ tags:
   - Actualidad
   - España
   - Ciber
+portada: portada.png
 draft: false
 ---
 ![](mukzwgo9-20kbq1s4.png)
