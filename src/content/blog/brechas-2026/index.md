@@ -9,6 +9,7 @@ tags:
   - brechas
   - Noticias
   - Actualidad
+portada: portada.png
 draft: false
 ---
 ![](mukzjtgv-09kri8zk.png)
