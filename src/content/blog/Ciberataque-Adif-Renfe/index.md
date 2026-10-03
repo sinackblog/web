@@ -8,6 +8,7 @@ author: s
 tags:
   - Ataque
   - Ciber
+portada: portada.png
 draft: false
 ---
 # 
