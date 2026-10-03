@@ -12,14 +12,16 @@ const text = z.coerce.string();
 
 const blog = defineCollection({
   loader: glob({ pattern: "*/index.md", base: "./src/content/blog" }),
-  schema: z.object({
-    title: text,
-    description: text,
-    pubDate: z.coerce.date(),
-    author: text,
-    tags: z.array(text).default([]),
-    draft: z.boolean().default(true),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: text,
+      description: text,
+      pubDate: z.coerce.date(),
+      author: text,
+      tags: z.array(text).default([]),
+      portada: image().optional(),
+      draft: z.boolean().default(true),
+    }),
 });
 
 const labs = defineCollection({

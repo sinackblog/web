@@ -130,9 +130,14 @@ html.sidebar-collapsed main{ margin-left: 0; }
 .help .flag{ min-width: 140px; color: var(--ink); }
 
 
-.posts{ margin: 0; padding: 0; list-style: none; max-width: 700px; }
-.post{ padding: 22px 0; border-bottom: 1px solid var(--rule); }
+.posts{ margin: 0; padding: 0; list-style: none; max-width: 820px; }
+.post{ padding: 22px 0; border-bottom: 1px solid var(--rule); display: flex; gap: 20px; }
 .post:first-child{ padding-top: 0; }
+.post-thumb{
+  width: 150px; height: 100px; object-fit: cover; border-radius: 6px; flex-shrink: 0;
+  background: var(--rule2);
+}
+.post-body{ min-width: 0; }
 .meta{ font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: flex; gap: 16px; margin-bottom: 7px; }
 .post h2{ font-family: var(--mono); font-weight: 500; font-size: 19px; line-height: 1.35; letter-spacing: -.015em; margin: 0 0 6px; }
 .post h2 a{ color: var(--ink); text-decoration: none; }
@@ -163,6 +168,7 @@ html.sidebar-collapsed main{ margin-left: 0; }
 .docs .ficha b{ font-weight: 500; color: var(--ink); min-width: 240px; }
 
 article{ max-width: 900px; overflow-wrap: anywhere; }
+.post-banner{ width: 100%; max-height: 360px; object-fit: cover; border-radius: 8px; margin: 0 0 24px; display: block; }
 article h1{ font-family: var(--mono); font-weight: 500; font-size: 26px; line-height: 1.28; letter-spacing: -.02em; margin: 0 0 12px; }
 .artmeta{ font-family: var(--mono); font-size: 12.5px; color: var(--muted); display: flex; gap: 16px; margin-bottom: 30px; }
 article p{ margin: 0 0 21px; color: var(--soft); }
@@ -277,6 +283,7 @@ html.sidebar-collapsed .pie{ margin-left: 0; }
   .docs .ficha b{ min-width: 0; }
   article h1{ font-size: 22px; }
   article pre, .run .out{ font-size: 12px; }
+  .post-thumb{ width: 90px; height: 70px; }
 }
 @media (prefers-reduced-motion: reduce){
   .blink{ animation: none; }

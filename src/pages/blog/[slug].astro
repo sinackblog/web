@@ -3,6 +3,7 @@ export const prerender = true;
 
 import Layout from "../../layouts/Layout.astro";
 import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -19,6 +20,9 @@ const fmt = (d: Date) => d.toISOString().slice(0, 10);
 
 <Layout title={post.data.title} ruta={`blog/${post.id}`} cmd={`cat blog/${post.id}.md`} sub="">
   <article>
+    {post.data.portada && (
+      <Image class="post-banner" src={post.data.portada} alt="" width={1600} height={700} />
+    )}
     <h1>{post.data.title}</h1>
     <div class="artmeta">
       <span>{fmt(post.data.pubDate)}</span>

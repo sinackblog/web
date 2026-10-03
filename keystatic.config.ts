@@ -62,6 +62,12 @@ export default config({
           label: "Etiquetas",
           itemLabel: (props) => props.value || "—",
         }),
+        portada: fields.image({
+          label: "Portada",
+          description: "Imagen de cabecera, se ve en el listado del blog. Opcional.",
+          validation: { isRequired: false },
+          transformFilename: uniqueFilename,
+        }),
         draft: fields.checkbox({ label: "Borrador", defaultValue: true }),
         content: fields.markdoc({
           label: "Contenido",
