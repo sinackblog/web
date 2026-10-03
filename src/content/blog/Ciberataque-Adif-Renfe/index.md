@@ -1,5 +1,5 @@
 ---
-title: '# Ciberataque a Renfe y Adif: ¿qué sabemos realmente hasta ahora?'
+title: 'Ciberataque a Renfe y Adif: ¿qué sabemos realmente hasta ahora?'
 description: >
   El 25 de septiembre de 2026**, Renfe confirmó oficialmente haber sufrido un
   incidente de ciberseguridad.
