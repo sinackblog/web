@@ -24,6 +24,23 @@ function uniqueFilename(originalFilename: string) {
   return `${Date.now().toString(36)}-${random}${ext}`;
 }
 
+// Opciones compartidas por el campo de imagen dentro del contenido (en los
+// 4 "Contenido" de Blog/Labs/Documentación/Portfolio). El campo "Tamaño" no
+// es nativo de Keystatic: aprovechamos el campo "title" de la imagen (que si
+// existe en el editor) como una forma sencilla de que quien escribe pida un
+// tamaño sin tener que tocar CSS — la web lo interpreta al compilar.
+const imageOptions = {
+  transformFilename: uniqueFilename,
+  schema: {
+    alt: fields.text({ label: "Texto alternativo (accesibilidad)", validation: { isRequired: false } }),
+    title: fields.text({
+      label: "Tamaño",
+      description: 'Opcional. Escribe: pequeña, mediana, grande o completa. Si lo dejas vacío, se adapta sola.',
+      validation: { isRequired: false },
+    }),
+  },
+};
+
 export default config({
   storage: isGithub
     ? { kind: "github", repo: "sinackblog/web" }
@@ -73,7 +90,7 @@ export default config({
           label: "Contenido",
           description: "Texto en markdown: títulos, negritas, enlaces, imágenes, listas, bloques de código.",
           extension: "md",
-          options: { image: { transformFilename: uniqueFilename } },
+          options: { image: imageOptions },
         }),
       },
     }),
@@ -126,7 +143,7 @@ export default config({
           label: "Contenido",
           description: "Texto en markdown: títulos, negritas, enlaces, imágenes, listas, bloques de código.",
           extension: "md",
-          options: { image: { transformFilename: uniqueFilename } },
+          options: { image: imageOptions },
         }),
       },
     }),
@@ -148,7 +165,7 @@ export default config({
         content: fields.markdoc({
           label: "Contenido",
           extension: "md",
-          options: { image: { transformFilename: uniqueFilename } },
+          options: { image: imageOptions },
         }),
       },
     }),
@@ -191,7 +208,7 @@ export default config({
         content: fields.markdoc({
           label: "Contenido",
           extension: "md",
-          options: { image: { transformFilename: uniqueFilename } },
+          options: { image: imageOptions },
         }),
       },
     }),

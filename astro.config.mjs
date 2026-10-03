@@ -5,6 +5,7 @@ import keystatic from "@keystatic/astro";
 import react from "@astrojs/react";
 import rehypeSanitize, { defaultSchema } from "rehype-sanitize";
 import remarkKeystaticImages from "./src/remark-keystatic-images.mjs";
+import rehypeImageSize from "./src/rehype-image-size.mjs";
 
 // Markdown en crudo deja pasar HTML tal cual (es el comportamiento estándar
 // de Markdown, no algo que hayamos configurado nosotros). Con varias personas
@@ -28,7 +29,7 @@ export default defineConfig({
   integrations: [react(), keystatic()],
   markdown: {
     remarkPlugins: [remarkKeystaticImages],
-    rehypePlugins: [[rehypeSanitize, sanitizeSchema]],
+    rehypePlugins: [rehypeImageSize, [rehypeSanitize, sanitizeSchema]],
   },
   vite: {
     ssr: {
