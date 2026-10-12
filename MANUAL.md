@@ -21,7 +21,6 @@ En el menú de la izquierda hay 4 colecciones:
 | **Blog** | Opinión, actualidad comentada, artículos que no son un montaje paso a paso |
 | **Labs** | Laboratorios: algo que has montado, con pasos, y su resultado |
 | **Documentación** | Fichas de referencia rápida (comandos, configuraciones) |
-| **Portfolio** | Proyectos o herramientas propias, no artículos |
 
 ## 3. Crear una entrada
 
@@ -52,16 +51,6 @@ Los mismos campos que Blog (Título, Descripción, Fecha, Autor, Etiquetas, Borr
 - **Borrador**.
 - **Contenido**.
 
-### Portfolio
-
-- **Título** — el nombre del proyecto o herramienta.
-- **Tipo** — Proyecto o Herramienta.
-- **Estado** — Activo, En curso o Terminado.
-- **Descripción**.
-- **Stack / etiquetas** — tecnologías, una por línea.
-- **Enlace (repo, demo…)** — opcional, URL a donde corresponda.
-- **Borrador**.
-- **Contenido**.
 
 **Nunca pongas tu nombre real en ningún campo** — es la única regla dura del sitio, solo iniciales.
 

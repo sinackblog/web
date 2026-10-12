@@ -1,6 +1,6 @@
 # sinack
 
-Sitio de sinack: blog, labs, documentación y portfolio. Astro + Keystatic + Cloudflare Pages.
+Sitio de sinack: blog, labs, y documentación. Astro + Keystatic + Cloudflare Pages.
 Ver [CLAUDE.md](./CLAUDE.md) para el contexto completo de decisiones de diseño y contenido.
 
 ## Empezar en local
@@ -14,7 +14,7 @@ Abre `http://localhost:4321`.
 
 ## Editar contenido
 
-Todo el contenido (`posts`, `docs`, `portfolio`) vive como ficheros Markdown en `src/content/`,
+Todo el contenido (`posts`, `docs`) vive como ficheros Markdown en `src/content/`,
 con el esquema definido en [`keystatic.config.ts`](./keystatic.config.ts). Se puede editar:
 
 - **A mano**, directamente en esos ficheros.
@@ -62,7 +62,6 @@ El repo es de una sola cuenta, pero el panel lo va a usar todo el equipo. La for
 
 - `src/content/posts/<slug>/index.md` — blog y labs (campo `tipo`: `blog` | `lab`)
 - `src/content/docs/<slug>/index.md` — fichas de documentación, agrupadas por `grupo`
-- `src/content/portfolio/<slug>/index.md` — proyectos y herramientas
 
 Los autores y las etiquetas son listas cerradas definidas en `keystatic.config.ts`
 (constantes `AUTORES` y `TAGS`) — hay que editarlas ahí para añadir gente o etiquetas nuevas.

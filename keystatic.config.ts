@@ -25,7 +25,7 @@ function uniqueFilename(originalFilename: string) {
 }
 
 // Opciones compartidas por el campo de imagen dentro del contenido (en los
-// 4 "Contenido" de Blog/Labs/Documentación/Portfolio). El campo "Tamaño" no
+// 3 "Contenido" de Blog/Labs/Documentación). El campo "Tamaño" no
 // es nativo de Keystatic: aprovechamos el campo "title" de la imagen (que si
 // existe en el editor) como una forma sencilla de que quien escribe pida un
 // tamaño sin tener que tocar CSS — la web lo interpreta al compilar.
@@ -161,49 +161,6 @@ export default config({
           description: "p.ej. fortinet, redes, ot. Agrupa las fichas en /docs.",
         }),
         description: fields.text({ label: "Descripción corta" }),
-        draft: fields.checkbox({ label: "Borrador", defaultValue: true }),
-        content: fields.markdoc({
-          label: "Contenido",
-          extension: "md",
-          options: { image: imageOptions },
-        }),
-      },
-    }),
-
-    portfolio: collection({
-      label: "Portfolio",
-      path: "src/content/portfolio/*/",
-      slugField: "title",
-      format: { contentField: "content" },
-      entryLayout: "content",
-      schema: {
-        title: fields.slug({ name: { label: "Título" } }),
-        tipo: fields.select({
-          label: "Tipo",
-          options: [
-            { label: "Proyecto", value: "proyecto" },
-            { label: "Herramienta", value: "herramienta" },
-          ],
-          defaultValue: "proyecto",
-        }),
-        estado: fields.select({
-          label: "Estado",
-          options: [
-            { label: "Activo", value: "activo" },
-            { label: "En curso", value: "en-curso" },
-            { label: "Terminado", value: "terminado" },
-          ],
-          defaultValue: "activo",
-        }),
-        description: fields.text({ label: "Descripción", multiline: true }),
-        stack: fields.array(fields.text({ label: "Etiqueta" }), {
-          label: "Stack / etiquetas",
-          itemLabel: (props) => props.value || "—",
-        }),
-        url: fields.url({
-          label: "Enlace (repo, demo…)",
-          validation: { isRequired: false },
-        }),
         draft: fields.checkbox({ label: "Borrador", defaultValue: true }),
         content: fields.markdoc({
           label: "Contenido",

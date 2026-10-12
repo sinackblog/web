@@ -48,17 +48,4 @@ const docs = defineCollection({
   }),
 });
 
-const portfolio = defineCollection({
-  loader: glob({ pattern: "*/index.md", base: "./src/content/portfolio" }),
-  schema: z.object({
-    title: text,
-    tipo: z.enum(["proyecto", "herramienta"]),
-    estado: z.enum(["activo", "en-curso", "terminado"]),
-    description: text,
-    stack: z.array(text).default([]),
-    url: text.optional(),
-    draft: z.boolean().default(true),
-  }),
-});
-
-export const collections = { blog, labs, docs, portfolio };
+export const collections = { blog, labs, docs };

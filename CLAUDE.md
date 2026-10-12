@@ -5,7 +5,7 @@ Contexto del proyecto para trabajar en este repositorio.
 ## Qué es
 
 sinack es un sitio sobre ciberseguridad. No es solo un blog: tiene secciones de blog, labs,
-documentación y portfolio.
+y documentación.
 
 - Dominio: **sinack.es** (registrado en DonDominio, DNS aún en los nameservers del registrador)
 - Repositorio: **github.com/sinackblog/web**
@@ -34,10 +34,9 @@ entran a `/keystatic`, escriben, guardan y se publica.
 | blog | `sinack --blog` | posts, opinión, actualidad comentada |
 | labs | `sinack --labs` | laboratorios reproducibles, en contenedores, con repo |
 | documentación | `sinack --docs` | fichas cortas de configuración agrupadas por carpeta |
-| portfolio | `sinack --portfolio` | proyectos y herramientas propias |
 | sobre | `cat sobre.md` | qué es el sitio |
 
-Los labs y el portfolio se muestran como cajas en rejilla de dos columnas.
+Los labs se muestran como cajas en rejilla.
 **Sin nombres de autor en las cajas de labs.**
 
 ## Diseño
@@ -128,9 +127,9 @@ Hecho:
 - Diseño de la maqueta trasladado a `Layout.astro` + `global.css` (misma tipografía, misma
   paleta, mismo efecto de tecleo en la cabecera, mismo bloque colapsable de "salida" — con
   Astro View Transitions en vez del cambio de vista simulado en JS de la maqueta)
-- Colecciones de Keystatic (`posts` con `tipo: blog|lab`, `docs`, `portfolio`) con el esquema
+- Colecciones de Keystatic (`posts` con `tipo: blog|lab`, `docs`) con el esquema
   de "Reglas de contenido" y "Esquema de contenido" de este documento
-- Contenido de prueba (9 posts/labs, 8 fichas de docs, 4 entradas de portfolio) **solo para
+- Contenido de prueba (9 posts/labs, 8 fichas de docs) **solo para
   ver el sitio con datos mientras se construye — se retira antes de anunciarlo**, ver Pendiente
 - Feed RSS en `/rss.xml`
 - Autores anonimizados: solo inicial (`D`/`S`/`A`) en `keystatic.config.ts`, sin nombres en
@@ -145,4 +144,4 @@ Pendiente:
 - Trasladar el logo/icono de `marca/` (pendiente de generar los ficheros) al favicon y la marca
   del sitio — de momento usa el favicon por defecto del scaffold de Astro
 - **Antes de anunciar el sitio: borrar las entradas de prueba** en `src/content/posts`,
-  `src/content/docs` y `src/content/portfolio`, y escribir contenido real
+  y `src/content/docs`, y escribir contenido real
